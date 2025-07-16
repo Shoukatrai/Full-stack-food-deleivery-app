@@ -20,9 +20,6 @@ const userSchema = new mongoose.Schema({
   gender: {
     type: String
   },
-  dob: {
-    type: String
-  },
   type: {
     type: String,
     enum : ["admin" , "customer" , "vendor"]
