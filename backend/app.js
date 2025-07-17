@@ -7,13 +7,18 @@ import { dbConnection } from "./config/db.js";
 const app = express();
 dotenv.config();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors())
+app.use(express.json()) //body parser
+app.use(express.urlencoded({ extended: true }))
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 
 app.use("/api/auth", authRouter)
 app.use("/api/restaurant", resRouter)
 
+app.get("/" , (req , res)=>res.send("SERVER UP"))
 
 dbConnection()
 
