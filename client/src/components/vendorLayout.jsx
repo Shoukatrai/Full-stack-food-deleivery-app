@@ -21,6 +21,22 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import { Link } from 'react-router-dom';
+
+const linkStyle = {
+    textDecoration: 'none',
+    color: '#444', // default text color
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+};
+
+const activeLinkStyle = {
+    ...linkStyle,
+    color: '#1976d2', // Material UI primary color
+    fontWeight: 'bold',
+};
+
+
 const VendorListing = [
     {
         name: 'Home',
@@ -77,8 +93,8 @@ function VendorLayout(props) {
                             <ListItemIcon>
                                 {list.icon}
                             </ListItemIcon>
-                            <Link to={list.url} >
-                            <ListItemText primary={list.name} />
+                            <Link to={list.url} style={linkStyle}>
+                                <ListItemText primary={list.name} />
                             </Link>
                         </ListItemButton>
                     </ListItem>
@@ -88,7 +104,6 @@ function VendorLayout(props) {
         </div>
     );
 
-    // Remove this const when copying and pasting into your project.
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
@@ -134,7 +149,7 @@ function VendorLayout(props) {
                     }}
                     slotProps={{
                         root: {
-                            keepMounted: true, // Better open performance on mobile.
+                            keepMounted: true,
                         },
                     }}
                 >
