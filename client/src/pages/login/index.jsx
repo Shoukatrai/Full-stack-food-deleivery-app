@@ -19,7 +19,6 @@ const Login = () => {
   const onSubmit = async (obj) => {
     try {
       setLoading(true)
-      obj.type = "admin"
       console.log("obj", obj)
       const response = await axios.post(`${BASE_URL}/auth/login`, obj)
       console.log("response", response.data)

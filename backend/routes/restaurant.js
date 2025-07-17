@@ -3,8 +3,8 @@ import { createRes, deleteVendorRes, getVendorRes } from "../controllers/restaur
 import { checkAuth } from "../middlewares/auth.js";
 const resRouter = express.Router();
 
-resRouter.get("/create-restaurant", checkAuth, createRes);
+resRouter.post("/create-restaurant", checkAuth, createRes);
 resRouter.get("/vendor-restaurant", checkAuth, getVendorRes);
-resRouter.get("/vendor-restaurant/:id", checkAuth, deleteVendorRes);
+resRouter.delete("/vendor-restaurant/:id", checkAuth, deleteVendorRes);
 
 export default resRouter;

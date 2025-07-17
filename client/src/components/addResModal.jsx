@@ -5,9 +5,11 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { MenuItem, Stack, TextField } from '@mui/material';
+import { CircularProgress, MenuItem, Stack, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-
+import { BASE_URL, toastAlert } from '../utils';
+import axios from 'axios';
+import Cookies from "js-cookie"
 
 // "restaurantName": "AZ restaurant",
 //     "details": "HDGGDH",
@@ -21,19 +23,19 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: { xs: '90vw', sm: 400, md: 500 }, 
+    width: { xs: '90vw', sm: 400, md: 500 },
     bgcolor: 'background.paper',
     borderRadius: 4,
     boxShadow: 8,
-    p: { xs: 2, sm: 4 }, 
+    p: { xs: 2, sm: 4 },
     border: 'none',
     outline: 'none',
 };
 
-export const AddResModal = ({ open, setOpen }) => {
+export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
     const [loading, setLoading] = React.useState(false)
     const handleClose = () => setOpen(false);
-    const { control, handleSubmit } = useForm({
+    const { control, handleSubmit, reset } = useForm({
         defaultValues: {
             restaurantName: "",
             details: "",
@@ -47,11 +49,12 @@ export const AddResModal = ({ open, setOpen }) => {
     const onSubmit = async (obj) => {
         try {
             console.log("obj", obj)
-            return
             setLoading(true)
-            obj.type = "admin"
-            console.log("obj", obj)
-            const response = await axios.post(`${BASE_URL}/auth/signup`, obj)
+            const response = await axios.post("http://localhost:5000/api/restaurant/create-restaurant", obj, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get("token")} `
+                }
+            })
             console.log("response", response.data)
             setLoading(false)
             if (!response.data.status) {
@@ -64,8 +67,11 @@ export const AddResModal = ({ open, setOpen }) => {
                     type: "success",
                     message: response.data.message
                 })
-                navigate("/")
+                reset({})
+                handleClose()
+                setIsRefresh(!isRefresh)
             }
+
         } catch (error) {
             setLoading(false)
             toastAlert({

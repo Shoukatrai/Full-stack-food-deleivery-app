@@ -123,7 +123,9 @@ const Signup = () => {
 
                     <Typography variant="body1" align="center" fontWeight={700} color="primary">
                         Have an account? {' '}
-                        <MuiLink
+                       <Link to={"/"}>Login</Link>
+                       
+                        {/* <MuiLink
                             component={RouterLink}
                             to="signup"
                             sx={{
@@ -135,7 +137,7 @@ const Signup = () => {
                                     textDecoration: 'none',
                                 },
                             }}
-                        > Login </MuiLink>
+                        > Login </MuiLink> */}
                     </Typography>
                     <Button variant="contained" color="primary" size="large" sx={{
                         mt: 2,
