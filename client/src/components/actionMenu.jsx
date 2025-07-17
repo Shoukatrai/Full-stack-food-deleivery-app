@@ -25,7 +25,9 @@ export default function ActionMenu() {
                 onClick={handleClick}
             >
                 <IconButton aria-label="Example">
-                    <MoreVertIcon fontSize='14px' />
+                    <MoreVertIcon fontSize='14px' sx={{
+                        color :"white"
+                    }}/>
                 </IconButton>
             </Button>
             <Menu
