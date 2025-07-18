@@ -27,7 +27,6 @@ export const createRes = async (req, res) => {
 
 export const getVendorRes = async (req, res) => {
   try {
-    const body = req.body;
     const response = await restaurantModel.find({
       createBy: req.user.id,
       isDeleted: false,
