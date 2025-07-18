@@ -4,8 +4,12 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { BASE_URL, toastAlert } from '../utils';
+import axios from 'axios';
+import Cookies from "js-cookie"
 
-export default function ActionMenu() {
+export default function ActionMenu({ isRefresh,
+    setIsRefresh, id }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -14,6 +18,32 @@ export default function ActionMenu() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleDelete = async () => {
+        try {
+            console.log("id" , id)
+            const response = await axios.delete(
+                `${BASE_URL}/restaurant/vendor-restaurant/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${Cookies.get("token")}`
+                    }
+                }
+            );
+            handleClose()
+            toastAlert({
+                type: "success",
+                message: response.data.message
+            });
+            setIsRefresh(prev => !prev);
+        } catch (error) {
+            handleClose()
+            toastAlert({
+                type: "error",
+                message: error.message
+            });
+        }
+    }
 
     return (
         <div>
@@ -26,8 +56,8 @@ export default function ActionMenu() {
             >
                 <IconButton aria-label="Example">
                     <MoreVertIcon fontSize='14px' sx={{
-                        color :"white"
-                    }}/>
+                        color: "white"
+                    }} />
                 </IconButton>
             </Button>
             <Menu
@@ -42,7 +72,7 @@ export default function ActionMenu() {
                 }}
             >
                 <MenuItem onClick={handleClose}>Edit</MenuItem>
-                <MenuItem onClick={handleClose}>Delete</MenuItem>
+                <MenuItem onClick={handleDelete}>Delete</MenuItem>
             </Menu>
         </div>
     );

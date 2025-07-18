@@ -6,10 +6,41 @@ import CardActions from '@mui/material/CardActions';
 import { Cancel, CheckCircle, Email, LocationOn, Phone } from '@mui/icons-material';
 import { Button, Chip, Stack, Box } from '@mui/material';
 import ActionMenu from './actionMenu';
+import { BASE_URL, toastAlert } from '../utils';
+import axios from 'axios';
+import Cookies from "js-cookie"
 
 
-export default function RestaurantCard({ handleDelete, restaurant }) {
+export default function RestaurantCard({ restaurant, isRefresh,
+    setIsRefresh }) {
     console.log("restaurant card check", restaurant)
+
+
+    const statusHandler = async (id) => {
+        console.log("statusHandler", id)
+        try {
+            const updateObj = {
+                isOpen: !restaurant.isOpen
+            }
+            const response = await axios.patch(`${BASE_URL}/restaurant/vendor-restaurant-status/${id}`, updateObj, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get("token")}`
+                }
+            })
+
+
+            setIsRefresh(!isRefresh)
+            toastAlert({
+                type: "success",
+                message: response.data.message
+            });
+        } catch (error) {
+            toastAlert({
+                type: "error",
+                message: error.message
+            });
+        }
+    }
     return (
         <Card
             sx={{
@@ -44,7 +75,11 @@ export default function RestaurantCard({ handleDelete, restaurant }) {
                 <Typography variant="h6" fontWeight={700} fontSize={{ xs: 18, sm: 22 }}>
                     {restaurant?.restaurantName}
                 </Typography>
-                <ActionMenu />
+                <ActionMenu
+                    isRefresh={isRefresh}
+                    setIsRefresh={setIsRefresh}
+                    id={restaurant._id}
+                />
             </Box>
             <CardActionArea>
                 <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
@@ -97,6 +132,9 @@ export default function RestaurantCard({ handleDelete, restaurant }) {
                             textTransform: 'none',
                             fontWeight: 600,
                             borderRadius: 2,
+                        }}
+                        onClick={() => {
+                            statusHandler(restaurant._id)
                         }}
                     >
                         {restaurant?.isOpen ? 'Open' : 'Closed'}

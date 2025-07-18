@@ -14,7 +14,7 @@ export const createRes = async (req, res) => {
     res.json({
       message: "Restaurant Created successfully!",
       status: true,
-      data: response
+      data: response,
     });
   } catch (error) {
     res.json({
@@ -23,19 +23,21 @@ export const createRes = async (req, res) => {
       data: null,
     });
   }
-}
-
+};
 
 export const getVendorRes = async (req, res) => {
   try {
     const body = req.body;
-    const response = await restaurantModel.find({createBy : req.user.id , isDeleted : false} )
+    const response = await restaurantModel.find({
+      createBy: req.user.id,
+      isDeleted: false,
+    });
     console.log("RESTAURANT RESPONSE", response);
     // SUCCESS RES SEND
     res.json({
       message: "VENDOR",
       status: true,
-      data: response
+      data: response,
     });
   } catch (error) {
     res.json({
@@ -44,22 +46,22 @@ export const getVendorRes = async (req, res) => {
       data: null,
     });
   }
-}
+};
 
 export const deleteVendorRes = async (req, res) => {
   try {
     const id = req.params.id;
 
     const updateObj = {
-      isDeleted : true
+      isDeleted: true,
     };
-    const response = await restaurantModel.findByIdAndUpdate(id , updateObj)
+    const response = await restaurantModel.findByIdAndUpdate(id, updateObj, { new: true });
     console.log("RESTAURANT RESPONSE", response);
     // SUCCESS RES SEND
     res.json({
-      message: "RES SOFT DELETED",
+      message: "Restaurant Deleted",
       status: true,
-      data: response
+      data: response,
     });
   } catch (error) {
     res.json({
@@ -68,4 +70,35 @@ export const deleteVendorRes = async (req, res) => {
       data: null,
     });
   }
-}
+};
+
+export const vendorResStatus = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const body = req.body;
+    const restaurant = await restaurantModel.findById(id);
+    console.log("restaurant", restaurant);
+    if (!restaurant?.isApproved) {
+      return res.json({
+        message: "Your Rastaurant is not Approved , wait for approval from the admin!",
+        status: false,
+        data: null,
+      });
+    }
+
+    const response = await restaurantModel.findByIdAndUpdate(id, body, { new: true });
+    console.log("RESTAURANT RESPONSE", response);
+
+    res.json({
+      message: "Restaurant Status Changed",
+      status: true,
+      data: response,
+    });
+  } catch (error) {
+    res.json({
+      message: error.message || "Something went wrong",
+      status: false,
+      data: null,
+    });
+  }
+};
