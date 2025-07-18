@@ -7,12 +7,17 @@ import RestaurantCard from '../../../components/RestaurantCard';
 import { BASE_URL, toastAlert } from '../../../utils';
 import axios from 'axios';
 import Cookies from "js-cookie"
+import { UpdateResModal } from '../../../components/UpdateResModal ';
 
 
 const VendorRestaurant = () => {
   const [isRefresh, setIsRefresh] = useState(false)
   const [restaurants, setRestaurants] = useState([])
+  const [selectRestaurant, setSelectRestaurant] = useState({})
+  //add res
   const [addResModal, setAddResModal] = React.useState(false);
+  //edit res
+  const [updateResModal, setUpdateResModal] = React.useState(false);
 
 
   const fetchData = async () => {
@@ -46,7 +51,8 @@ const VendorRestaurant = () => {
             .filter((restaurant) => !restaurant?.isDeleted)
             .map((restaurant) => (
               <RestaurantCard restaurant={restaurant} key={restaurant._id} isRefresh={isRefresh}
-                setIsRefresh={setIsRefresh} />
+                setIsRefresh={setIsRefresh} updateResModal={updateResModal}
+                setUpdateResModal={setUpdateResModal} setSelectRestaurant = {setSelectRestaurant}/>
             ))}
 
         </Stack>
@@ -76,6 +82,13 @@ const VendorRestaurant = () => {
           isRefresh={isRefresh}
           setIsRefresh={setIsRefresh}
         />
+        {updateResModal && <UpdateResModal
+          open={updateResModal}
+          setOpen={setUpdateResModal}
+          isRefresh={isRefresh}
+          setIsRefresh={setIsRefresh}
+          selectRestaurant = {selectRestaurant}
+        />}
       </VendorLayout>
     </div>
   )

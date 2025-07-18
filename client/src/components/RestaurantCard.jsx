@@ -12,7 +12,7 @@ import Cookies from "js-cookie"
 
 
 export default function RestaurantCard({ restaurant, isRefresh,
-    setIsRefresh }) {
+    setIsRefresh , updateResModal, setUpdateResModal , setSelectRestaurant }) {
     console.log("restaurant card check", restaurant)
 
 
@@ -79,6 +79,10 @@ export default function RestaurantCard({ restaurant, isRefresh,
                     isRefresh={isRefresh}
                     setIsRefresh={setIsRefresh}
                     id={restaurant._id}
+                    updateResModal={updateResModal}
+                    setUpdateResModal={setUpdateResModal}
+                    setSelectRestaurant = {setSelectRestaurant}
+                    restaurant={restaurant}
                 />
             </Box>
             <CardActionArea>

@@ -55,7 +55,9 @@ export const deleteVendorRes = async (req, res) => {
     const updateObj = {
       isDeleted: true,
     };
-    const response = await restaurantModel.findByIdAndUpdate(id, updateObj, { new: true });
+    const response = await restaurantModel.findByIdAndUpdate(id, updateObj, {
+      new: true,
+    });
     console.log("RESTAURANT RESPONSE", response);
     // SUCCESS RES SEND
     res.json({
@@ -80,17 +82,45 @@ export const vendorResStatus = async (req, res) => {
     console.log("restaurant", restaurant);
     if (!restaurant?.isApproved) {
       return res.json({
-        message: "Your Rastaurant is not Approved , wait for approval from the admin!",
+        message:
+          "Your Rastaurant is not Approved , wait for approval from the admin!",
         status: false,
         data: null,
       });
     }
 
-    const response = await restaurantModel.findByIdAndUpdate(id, body, { new: true });
+    const response = await restaurantModel.findByIdAndUpdate(id, body, {
+      new: true,
+    });
     console.log("RESTAURANT RESPONSE", response);
 
     res.json({
       message: "Restaurant Status Changed",
+      status: true,
+      data: response,
+    });
+  } catch (error) {
+    res.json({
+      message: error.message || "Something went wrong",
+      status: false,
+      data: null,
+    });
+  }
+};
+
+export const vendorUpdateStatus = async (req, res) => {
+  try {
+    const {id} = req.params
+    const body = req.body
+    const response = await restaurantModel.findByIdAndUpdate(id, body, {
+      new: true,
+    });
+    console.log("RESTAURANT RESPONSE", response);
+
+
+
+    res.json({
+      message: "Restaurant Updated successfully",
       status: true,
       data: response,
     });

@@ -8,8 +8,8 @@ import { BASE_URL, toastAlert } from '../utils';
 import axios from 'axios';
 import Cookies from "js-cookie"
 
-export default function ActionMenu({ isRefresh,
-    setIsRefresh, id }) {
+export default function ActionMenu({ isRefresh, setIsRefresh, 
+    id, updateResModal, setUpdateResModal , setSelectRestaurant , restaurant}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -21,7 +21,7 @@ export default function ActionMenu({ isRefresh,
 
     const handleDelete = async () => {
         try {
-            console.log("id" , id)
+            console.log("id", id)
             const response = await axios.delete(
                 `${BASE_URL}/restaurant/vendor-restaurant/${id}`,
                 {
@@ -71,7 +71,11 @@ export default function ActionMenu({ isRefresh,
                     },
                 }}
             >
-                <MenuItem onClick={handleClose}>Edit</MenuItem>
+                <MenuItem onClick={()=>{
+                    setSelectRestaurant(restaurant)
+                    setUpdateResModal(true)
+                    handleClose()
+                }}>Edit</MenuItem>
                 <MenuItem onClick={handleDelete}>Delete</MenuItem>
             </Menu>
         </div>
