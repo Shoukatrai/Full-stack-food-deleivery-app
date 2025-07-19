@@ -11,7 +11,7 @@ app.use(express.json()) //body parser
 app.use(express.urlencoded({ extended: true }))
 
 app.use(cors({
-  origin: ['http://localhost:5173' , 'https://food-delivery-app-sr.netlify.app'],
+  origin: 'https://food-delivery-app-sr.netlify.app',
   credentials: true
 }));
 
