@@ -3,11 +3,12 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { BASE_URL, toastAlert } from '../../utils'
+import {  toastAlert } from '../../utils'
 import Cookies from "js-cookie"
 
 
 const Login = () => {
+  const BASE_URL = process.env.REACT_APP_API_BASE
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const { control, handleSubmit } = useForm({

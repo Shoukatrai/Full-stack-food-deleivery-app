@@ -2,10 +2,11 @@ import { Stack, TextField, Typography, Container, Paper, Button, CircularProgres
 import { Link, useNavigate } from 'react-router-dom'
 import { Controller, useForm } from "react-hook-form"
 import axios from 'axios'
-import { BASE_URL, toastAlert } from '../../utils'
+import { toastAlert } from '../../utils'
 import { useState } from 'react'
 
 const Signup = () => {
+    const BASE_URL = process.env.REACT_APP_API_BASE
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const { control, handleSubmit } = useForm({
