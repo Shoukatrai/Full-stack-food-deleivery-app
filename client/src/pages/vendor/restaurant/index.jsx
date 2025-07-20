@@ -4,14 +4,13 @@ import { Button, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { AddResModal } from '../../../components/addResModal';
 import RestaurantCard from '../../../components/RestaurantCard';
-import { toastAlert } from '../../../utils';
+import { BASE_URL, toastAlert } from '../../../utils';
 import axios from 'axios';
 import Cookies from "js-cookie";
 import { UpdateResModal } from '../../../components/UpdateResModal ';
 
 
 const VendorRestaurant = () => {
-  const BASE_URL = process.env.REACT_APP_API_BASE
   const [isRefresh, setIsRefresh] = useState(false)
   const [restaurants, setRestaurants] = useState([])
   const [selectRestaurant, setSelectRestaurant] = useState({})

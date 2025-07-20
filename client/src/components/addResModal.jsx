@@ -7,16 +7,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { CircularProgress, MenuItem, Stack, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-import { BASE_URL, toastAlert } from '../utils';
+import { toastAlert } from '../utils';
 import axios from 'axios';
 import Cookies from "js-cookie"
-
-// "restaurantName": "AZ restaurant",
-//     "details": "HDGGDH",
-//     "contactNumber": "03473127706",
-//     "address": "KARACHI",
-//     "email": "az@gmail.com",
-//     "category": "xyz"
 
 const style = {
     position: 'absolute',
@@ -34,6 +27,7 @@ const style = {
 
 export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
     const [loading, setLoading] = React.useState(false)
+    const [logoImage, setLogoImage] = React.useState()
     const handleClose = () => setOpen(false);
     const { control, handleSubmit, reset } = useForm({
         defaultValues: {
@@ -43,8 +37,15 @@ export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
             address: "",
             email: "",
             category: "",
+            image: ""
         }
     })
+
+    const handleChange = (e) => {
+        console.log(e.target.files[0])
+        setLogoImage(e.target.files[0])
+    };
+
 
     const onSubmit = async (obj) => {
         try {
@@ -100,7 +101,7 @@ export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
                 <Fade in={open}>
                     <Box sx={style}>
                         <Stack
-                            gap={2}
+                            gap={1.5}
                             component={"form"}
                             onSubmit={handleSubmit(onSubmit)}
                             sx={{
@@ -192,6 +193,23 @@ export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
                                 )}
                                 name="category"
                             />
+                            <Button variant="outlined" component="label">
+                                Upload Logo
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    hidden
+                                    name="logo"
+                                    onChange={handleChange}
+                                />
+                            </Button>
+
+
+                            {logoImage && (
+                                <Typography variant="body2" color="text.secondary">
+                                    Selected file: {logoImage.name}
+                                </Typography>
+                            )}
 
                             <Button variant="contained" color="primary" size="large" sx={{
                                 mt: 2,

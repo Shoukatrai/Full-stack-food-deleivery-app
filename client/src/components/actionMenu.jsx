@@ -4,7 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { BASE_URL, toastAlert } from '../utils';
+import { toastAlert } from '../utils';
 import axios from 'axios';
 import Cookies from "js-cookie"
 

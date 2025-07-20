@@ -6,7 +6,7 @@ import CardActions from '@mui/material/CardActions';
 import { Cancel, CheckCircle, Email, LocationOn, Phone } from '@mui/icons-material';
 import { Button, Chip, Stack, Box } from '@mui/material';
 import ActionMenu from './actionMenu';
-import { BASE_URL, toastAlert } from '../utils';
+import { toastAlert } from '../utils';
 import axios from 'axios';
 import Cookies from "js-cookie"
 

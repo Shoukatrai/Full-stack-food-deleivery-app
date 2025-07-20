@@ -1,12 +1,12 @@
-import { Stack, TextField, Typography, Container, Paper, Button, CircularProgress } from '@mui/material'
+import { Stack, TextField, Typography, Container, Paper, Button, CircularProgress, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import { Controller, useForm } from "react-hook-form"
 import axios from 'axios'
-import { toastAlert } from '../../utils'
+import { BASE_URL, toastAlert } from '../../utils'
 import { useState } from 'react'
+import apiEndPoints from '../../constant/apiEndPoints'
 
 const Signup = () => {
-    const BASE_URL = process.env.REACT_APP_API_BASE
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const { control, handleSubmit } = useForm({
@@ -16,15 +16,15 @@ const Signup = () => {
             password: "",
             phoneNumber: "",
             gender: "",
-            type: "",
+            type: ""
         }
     })
     const onSubmit = async (obj) => {
         try {
             setLoading(true)
-            obj.type = "admin"
             console.log("obj", obj)
-            const response = await axios.post(`${BASE_URL}/auth/signup`, obj)
+            const api = `${BASE_URL}${apiEndPoints.signup}`
+            const response = await axios.post(api, obj)
             console.log("response", response.data)
             setLoading(false)
             if (!response.data.status) {
@@ -50,11 +50,14 @@ const Signup = () => {
     }
 
 
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
 
     return (
         <Container maxWidth="sm" sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Paper elevation={4} sx={{ p: 4, width: '100%', borderRadius: 3 }}>
-                <Stack gap={3} component={"form"} onSubmit={handleSubmit(onSubmit)}>
+            <Paper elevation={4} sx={{ p: 4, width: '100%', borderRadius: 2 }}>
+                <Stack gap={1.5} component={"form"} onSubmit={handleSubmit(onSubmit)}>
                     <Typography variant="h4" align="center" fontWeight={700} color="primary">
                         SINGUP
                     </Typography>
@@ -121,24 +124,28 @@ const Signup = () => {
                         )}
                         name="gender"
                     />
+                    <Controller
+                        control={control}
+                        render={({ field, formState: { errors } }) => (<FormControl >
+                            <InputLabel id="demo-simple-select-helper-label">Role</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-helper-label"
+                                id="demo-simple-select-helper"
+                                value={""}
+                                label="Age"
+                                {...field}
+                            >
+                                <MenuItem value={"customer"}>Customer</MenuItem>
+                                <MenuItem value={"vendor"}>Vendor</MenuItem>
+                            </Select>
+                        </FormControl>)}
+                        name="type"
+                    />
+
 
                     <Typography variant="body1" align="center" fontWeight={700} color="primary">
                         Have an account? {' '}
-                       <Link to={"/"}>Login</Link>
-                       
-                        {/* <MuiLink
-                            component={RouterLink}
-                            to="signup"
-                            sx={{
-                                color: 'secondary.main',
-                                textDecoration: 'underline',
-                                fontWeight: 700,
-                                '&:hover': {
-                                    color: 'primary.main',
-                                    textDecoration: 'none',
-                                },
-                            }}
-                        > Login </MuiLink> */}
+                        <Link to={"/"}>Login</Link>
                     </Typography>
                     <Button variant="contained" color="primary" size="large" sx={{
                         mt: 2,

@@ -8,6 +8,10 @@ import Order from './pages/vendor/order'
 import Menu from './pages/vendor/menu'
 import AuthRoutes from './routes/AuthRoutes'
 import VendorRoutes from './routes/VendorRoutes'
+import AdminRoutes from './routes/AdminRoutes'
+import AdminDashboard from './pages/admin/AdminDashboard '
+import ClientDash from './pages/client/dash'
+import ClientRoutes from './routes/ClientRoutes'
 
 
 
@@ -27,8 +31,21 @@ function App() {
           <Route path='/vendor-order' element={<Order />} />
           <Route path='/vendor-menu' element={<Menu />} />
         </Route>
+
+        <Route element={<AdminRoutes />}>
+          <Route path='/admin-dashboard' element={<AdminDashboard />} />
+
+        </Route>
+
+        <Route element={<ClientRoutes />}>
+          <Route path='/client-dashboard' element={<ClientDash />} />
+
+        </Route>
+
+
+        
       </Routes>
-      
+
       <ToastContainer
         position="top-right"
         autoClose={5000}

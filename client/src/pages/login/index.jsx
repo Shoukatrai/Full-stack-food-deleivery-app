@@ -3,12 +3,12 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import {  toastAlert } from '../../utils'
+import { BASE_URL, toastAlert } from '../../utils'
 import Cookies from "js-cookie"
+import apiEndPoints from '../../constant/apiEndPoints'
 
 
 const Login = () => {
-  const BASE_URL = process.env.REACT_APP_API_BASE
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const { control, handleSubmit } = useForm({
@@ -21,21 +21,26 @@ const Login = () => {
     try {
       setLoading(true)
       console.log("obj", obj)
-      const response = await axios.post(`${BASE_URL}/auth/login`, obj)
+      const api = `${BASE_URL}${apiEndPoints.login}`
+      const response = await axios.post(api, obj)
       console.log("response", response.data)
       Cookies.set("token", response.data.token)
       setLoading(false)
-      if (!response.data.status) {
-        toastAlert({
-          type: "error",
-          message: response.data.message
-        })
-      } else {
-        toastAlert({
-          type: "success",
-          message: response.data.message
-        })
+      const userType = response.data.data.type
+      
+      if(userType ==="admin"){
+        navigate("/admin-dashboard")
+      }else if(userType ==="vendor"){
+        navigate("/vendor-dashboard")
+      }else if(userType ==="customer"){
+        navigate("/client-dashboard")
       }
+
+      toastAlert({
+        type: "success",
+        message: response.data.message
+      })
+
     } catch (error) {
       setLoading(false)
       console.log("error", error.message)
