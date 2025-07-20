@@ -26,7 +26,7 @@ const resSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  image : String
+  imageUrl : String
 });
 
 export const restaurantModel = mongoose.model("restaurant", resSchema);

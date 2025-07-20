@@ -47,9 +47,7 @@ const VendorRestaurant = () => {
     <div style={{ position: 'relative', minHeight: '100vh' }}>
       <VendorLayout>
         <Stack flexDirection={"row"} gap={3} spacing={2} sx={{ mt: 2 }} flexWrap={"wrap"}>
-          {restaurants
-            .filter((restaurant) => !restaurant?.isDeleted)
-            .map((restaurant) => (
+          {restaurants?.map((restaurant) => (
               <RestaurantCard restaurant={restaurant} key={restaurant._id} isRefresh={isRefresh}
                 setIsRefresh={setIsRefresh} updateResModal={updateResModal}
                 setUpdateResModal={setUpdateResModal} setSelectRestaurant = {setSelectRestaurant}/>

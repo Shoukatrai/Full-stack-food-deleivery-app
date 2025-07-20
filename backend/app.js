@@ -5,6 +5,7 @@ import authRouter from "./routes/auth.js";
 import resRouter from "./routes/restaurant.js";
 import { dbConnection } from "./config/db.js";
 import imageRouter from "./routes/uploadImage.js";
+import { cloudinaryConfig } from "./config/cloudinary.js";
 const app = express();
 dotenv.config();
 

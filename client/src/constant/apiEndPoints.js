@@ -2,8 +2,11 @@
 const apiEndPoints = {
     signup: "/auth/signup",
     login: "/auth/login",
-    // uploadImage: "/image/upload",
+    uploadImage: "/imagels/upload",
 
+    //vendor
+    createRestaurant : "/restaurant/create-restaurant",
+    editRestaurant : "/restaurant/create-restaurant",
 
     // // admin
     // adminAllRestaurant: "/admin/all-restaurant",

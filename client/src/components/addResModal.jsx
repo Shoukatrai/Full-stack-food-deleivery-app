@@ -7,9 +7,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { CircularProgress, MenuItem, Stack, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-import { toastAlert } from '../utils';
+import { BASE_URL, toastAlert } from '../utils';
 import axios from 'axios';
 import Cookies from "js-cookie"
+import apiEndPoints from '../constant/apiEndPoints';
 
 const style = {
     position: 'absolute',
@@ -37,7 +38,6 @@ export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
             address: "",
             email: "",
             category: "",
-            image: ""
         }
     })
 
@@ -51,7 +51,27 @@ export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
         try {
             console.log("obj", obj)
             setLoading(true)
-            const response = await axios.post("http://localhost:5000/api/restaurant/create-restaurant", obj, {
+            let imageUrl;
+            // if (logoImage) {
+            //     const formData = new FormData()
+            //     formData.append("image", logoImage)
+
+            //     const imageApi = "http://localhost:5000/api/image/upload"
+            //     const imageRes = await axios.post(imageApi, formData, {
+            //         headers: {
+            //             "Content-Type": "multipart/form-data",
+            //             Authorization: `Bearer ${Cookies.get("token")}`
+            //         }
+            //     })
+            //     imageUrl = imageRes.data.url
+            // }
+
+            const bodyObj = {
+                ...obj,
+                imageUrl: imageUrl || null
+            }
+            const api = `${BASE_URL}${apiEndPoints.createRestaurant}`
+            const response = await axios.post(api, obj, {
                 headers: {
                     Authorization: `Bearer ${Cookies.get("token")} `
                 }
