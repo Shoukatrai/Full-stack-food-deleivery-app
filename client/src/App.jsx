@@ -1,17 +1,12 @@
-import { Route, Routes } from 'react-router-dom'
 import './App.css'
+import { Route, Routes } from 'react-router-dom'
 import { Login, Signup } from './pages'
 import { Bounce, ToastContainer } from 'react-toastify'
-import VendorDashboard from './pages/vendor/dash'
-import VendorRestaurant from './pages/vendor/restaurant'
-import Order from './pages/vendor/order'
-import Menu from './pages/vendor/menu'
-import AuthRoutes from './routes/AuthRoutes'
-import VendorRoutes from './routes/VendorRoutes'
-import AdminRoutes from './routes/AdminRoutes'
-import AdminDashboard from './pages/admin/AdminDashboard '
 import ClientDash from './pages/client/dash'
-import ClientRoutes from './routes/ClientRoutes'
+import { AdminDashboard, Menues, Orders, Restaurants, Users, Vendors } from './pages/admin'
+import { VendoMenu, Order, VendorDashboard, VendorRestaurant } from './pages/vendor'
+import { AdminRoutes, AuthRoutes, VendorRoutes , ClientRoutes } from './routes'
+
 
 
 
@@ -29,11 +24,17 @@ function App() {
           <Route path='/vendor-dashboard' element={<VendorDashboard />} />
           <Route path='/vendor-restaurant' element={<VendorRestaurant />} />
           <Route path='/vendor-order' element={<Order />} />
-          <Route path='/vendor-menu' element={<Menu />} />
+          <Route path='/vendor-menu' element={<VendoMenu />} />
         </Route>
 
         <Route element={<AdminRoutes />}>
           <Route path='/admin-dashboard' element={<AdminDashboard />} />
+          <Route path='/admin-restaurants' element={<Restaurants />} />
+          <Route path='/admin-orders' element={<Orders />} />
+          <Route path='/admin-users' element={<Users />} />
+          <Route path='/admin-menus' element={<Menues />} />
+          <Route path=' /admin-vendors' element={<Vendors />} />
+         
 
         </Route>
 

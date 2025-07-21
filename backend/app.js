@@ -6,6 +6,7 @@ import resRouter from "./routes/restaurant.js";
 import { dbConnection } from "./config/db.js";
 import imageRouter from "./routes/uploadImage.js";
 import { cloudinaryConfig } from "./config/cloudinary.js";
+import adminRouter from "./routes/admin.js";
 const app = express();
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use("/api/auth", authRouter)
 app.use("/api/restaurant", resRouter)
 app.use("/api/image", imageRouter)
+app.use("/api/admin", adminRouter)
 
 app.get("/" , (req , res)=>res.send("SERVER UP"))
 

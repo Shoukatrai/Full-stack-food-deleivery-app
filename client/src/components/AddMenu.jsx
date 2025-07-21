@@ -10,13 +10,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { BASE_URL, toastAlert } from '../utils';
 import axios from 'axios';
 import Cookies from "js-cookie"
+import apiEndPoints from '../constant/apiEndPoints';
 
-// "restaurantName": "AZ restaurant",
-//     "details": "HDGGDH",
-//     "contactNumber": "03473127706",
-//     "address": "KARACHI",
-//     "email": "az@gmail.com",
-//     "category": "xyz"
 
 const style = {
     position: 'absolute',
@@ -32,34 +27,69 @@ const style = {
     outline: 'none',
 };
 
-export const UpdateResModal = ({ open, setOpen, isRefresh, setIsRefresh, selectRestaurant }) => {
+export const AddMenuModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
     const [loading, setLoading] = React.useState(false)
+    const [logoImage, setLogoImage] = React.useState()
+    const [selectRestaurant, setSelectRestaurant] = React.useState([])
     const handleClose = () => setOpen(false);
     const { control, handleSubmit, reset } = useForm({
         defaultValues: {
-            restaurantName: "",
-            details: "",
-            contactNumber: "",
-            address: "",
-            email: "",
-            category: "",
+            restaurant: "",
+            menuName: "",
+            menuDetails: "",
+            menuPrice: "",
+            menuCategory: "",
         }
     })
-    console.log("selectRestaurant", selectRestaurant)
+
+    const handleChange = (e) => {
+        console.log(e.target.files[0])
+        setLogoImage(e.target.files[0])
+    };
+
+    React.useEffect(() => {
+        (async () => {
+            try {
+                const api = `${BASE_URL}${apiEndPoints.selectRestaurant}`
+                const response = await axios.get(api, {
+                    headers: {
+                        Authorization: `Bearer ${Cookies.get("token")}`
+                    }
+                })
+                console.log(response)
+                setSelectRestaurant(response.data.data)
+            } catch (error) {
+                console.log(error.message, "error")
+            }
+        })()
+    }, [])
+
     const onSubmit = async (obj) => {
         try {
             console.log("obj", obj)
-            const id = selectRestaurant._id
-            const updateObj = {
-                restaurantName: obj.restaurantName,
-                details: obj.details,
-                contactNumber: obj.contactNumber,
-                address: obj.address,
-                email: obj.email,
-                category: obj.category
-            }
+            
             setLoading(true)
-            const response = await axios.put(`${BASE_URL}/restaurant/vendor-restaurant-update/${id}`, updateObj, {
+            let imageUrl;
+            // if (logoImage) {
+            //     const formData = new FormData()
+            //     formData.append("image", logoImage)
+
+            //     const imageApi = "http://localhost:5000/api/image/upload"
+            //     const imageRes = await axios.post(imageApi, formData, {
+            //         headers: {
+            //             "Content-Type": "multipart/form-data",
+            //             Authorization: `Bearer ${Cookies.get("token")}`
+            //         }
+            //     })
+            //     imageUrl = imageRes.data.url
+            // }
+
+            const bodyObj = {
+                ...obj,
+                imageUrl: imageUrl || null
+            }
+            const api = `${BASE_URL}${apiEndPoints.createMenu}`
+            const response = await axios.post(api, obj, {
                 headers: {
                     Authorization: `Bearer ${Cookies.get("token")} `
                 }
@@ -91,9 +121,11 @@ export const UpdateResModal = ({ open, setOpen, isRefresh, setIsRefresh, selectR
         }
     }
 
-    React.useEffect(() => {
-        reset(selectRestaurant)
-    }, [])
+    //selectRestaurant
+    //menuName
+    //menuDetails 
+    //menuPrice 
+    //menuCategory 
     const categories = ['Italian', 'Chinese', 'Indian', 'Mexican', 'Thai', 'Other'];
     return (
         <div>
@@ -113,7 +145,7 @@ export const UpdateResModal = ({ open, setOpen, isRefresh, setIsRefresh, selectR
                 <Fade in={open}>
                     <Box sx={style}>
                         <Stack
-                            gap={2}
+                            gap={1.5}
                             component={"form"}
                             onSubmit={handleSubmit(onSubmit)}
                             sx={{
@@ -122,74 +154,71 @@ export const UpdateResModal = ({ open, setOpen, isRefresh, setIsRefresh, selectR
                             }}
                         >
                             <Typography variant="h4" align="center" fontWeight={700} color="primary">
-                                Update Restaurant
+                                Create Menu
                             </Typography>
                             <Controller
                                 control={control}
-                                render={({ field, formState: { errors } }) => (<TextField
-                                    label="Restaurant Name"
-                                    variant="outlined"
-                                    fullWidth
-                                    required
-                                    {...field}
-                                />
+                                render={({ field }) => (
+                                    <TextField
+                                        label="Restaurant"
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        {...field}
+                                        select
+                                    >
+                                        {selectRestaurant?.map((res) => (
+                                            <MenuItem key={res._id} value={res._id}>
+                                                {res.restaurantName}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
                                 )}
-                                name="restaurantName"
+                                name="restaurant"
                             />
                             <Controller
                                 control={control}
                                 render={({ field, formState: { errors } }) => (<TextField
-                                    label="Details"
+                                    label="Menu Name"
                                     variant="outlined"
                                     fullWidth
                                     required
                                     {...field}
                                 />
                                 )}
-                                name="details"
+                                name="menuName"
                             />
                             <Controller
                                 control={control}
                                 render={({ field, formState: { errors } }) => (<TextField
-                                    label="Contact Number"
+                                    label="Menu Details"
                                     variant="outlined"
                                     fullWidth
                                     required
                                     {...field}
                                 />
                                 )}
-                                name="contactNumber"
+                                name="menuDetails"
                             />
                             <Controller
                                 control={control}
                                 render={({ field, formState: { errors } }) => (<TextField
-                                    label="Address"
+                                    label="Menu Price"
                                     variant="outlined"
                                     fullWidth
                                     required
                                     {...field}
+                                    type='number'
                                 />
                                 )}
-                                name="address"
+                                name="menuPrice"
                             />
-                            <Controller
-                                control={control}
-                                render={({ field, formState: { errors } }) => (<TextField
-                                    label="email"
-                                    variant="outlined"
-                                    fullWidth
-                                    required
-                                    {...field}
-                                    type='email'
-                                />
-                                )}
-                                name="email"
-                            />
+
 
                             <Controller
                                 control={control}
                                 render={({ field, formState: { errors } }) => (<TextField
-                                    label="category"
+                                    label="Menu Category"
                                     variant="outlined"
                                     fullWidth
                                     required
@@ -203,8 +232,25 @@ export const UpdateResModal = ({ open, setOpen, isRefresh, setIsRefresh, selectR
                                     ))}
                                 </TextField>
                                 )}
-                                name="category"
+                                name="menuCategory"
                             />
+                            <Button variant="outlined" component="label">
+                                Upload Logo
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    hidden
+                                    name="logo"
+                                    onChange={handleChange}
+                                />
+                            </Button>
+
+
+                            {logoImage && (
+                                <Typography variant="body2" color="text.secondary">
+                                    Selected file: {logoImage.name}
+                                </Typography>
+                            )}
 
                             <Button variant="contained" color="primary" size="large" sx={{
                                 mt: 2,
@@ -212,7 +258,7 @@ export const UpdateResModal = ({ open, setOpen, isRefresh, setIsRefresh, selectR
                                 display: 'flex',
                                 gap: "20px"
                             }} type='submit' >
-                                {loading ? <CircularProgress color='white' size={20} /> : "Update Restaurant"}
+                                {loading ? <CircularProgress color='white' size={20} /> : "Create Restaurant"}
                             </Button>
                         </Stack>
                     </Box>
