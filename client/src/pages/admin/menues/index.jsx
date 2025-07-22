@@ -1,5 +1,6 @@
 import React from 'react'
-import AdminLayout from '../../../components/AdminLayout '
+import { AdminLayout } from '../../../components'
+
 
 const Menues = () => {
   return (

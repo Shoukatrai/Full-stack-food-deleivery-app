@@ -179,13 +179,60 @@ export const selectRestaurantGet = async (req, res) => {
 
 export const fetchAllMenu = async (req, res) => {
   try {
-    const userId = req.user.id
-    const menuRes = await RestaurantMenuModel.find({createdBy : userId})
-    console.log("menuRes" , menuRes)
+    const userId = req.user.id;
+    const menuRes = await RestaurantMenuModel.find({ createdBy: userId });
+    console.log("menuRes", menuRes);
     res.json({
       status: true,
       message: "all menu fetch",
       data: menuRes,
+    });
+  } catch (error) {
+    res.json({
+      status: true,
+      message: error.message,
+      data: null,
+    });
+  }
+};
+
+export const editMenu = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const body = req.body;
+    console.log("body", body);
+    console.log("id", id);
+    const editRes = await RestaurantMenuModel.findByIdAndUpdate(id, body, {
+      new: true,
+    });
+
+    console.log("editRes", editRes);
+
+    res.json({
+      status: true,
+      message: "Menu Updated",
+      data: editRes,
+    });
+  } catch (error) {
+    res.json({
+      status: true,
+      message: error.message,
+      data: null,
+    });
+  }
+};
+
+export const deleteMenu = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const editRes = await RestaurantMenuModel.findByIdAndDelete(id);
+
+    console.log("editRes", editRes);
+
+    res.json({
+      status: true,
+      message: "Menu Deleted",
+      data: editRes,
     });
   } catch (error) {
     res.json({

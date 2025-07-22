@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { userModel } from "../models/userSchema.js";
-
+import nodemailer from "nodemailer"
+import { userVerificationEmail } from "../templates/userVerificationEmail.js";
 export const signup = async (req, res) => {
   try {
     const body = req.body;
@@ -22,6 +23,25 @@ export const signup = async (req, res) => {
 
     const response = await userModel.create(saveObj);
 
+    //send verification email
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.USER_EMAIL,
+        pass: process.env.APP_PASSWORD,
+      },
+    });
+    const mailOptions = {
+      from: process.env.USER_EMAIL,
+      to: response.email,
+      subject: "USER VERIFICATION",
+      html: userVerificationEmail(),
+    };
+    const emailResponse = await transporter.sendMail(mailOptions)
+    console.log("emailResponse" , emailResponse)
     //SUCCESS RESPONSE SEND
     res.json({
       message: "Signup Successful!",
@@ -37,8 +57,7 @@ export const signup = async (req, res) => {
   }
 };
 
-
-export const login =  async (req, res) => {
+export const login = async (req, res) => {
   const body = req.body;
   try {
     //CHECK USER EXIST OR NOT

@@ -4,12 +4,13 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { BASE_URL, toastAlert } from '../utils';
+import { BASE_URL, toastAlert } from '../../utils';
 import axios from 'axios';
 import Cookies from "js-cookie"
+import apiEndPoints from '../../constant/apiEndPoints';
 
-export default function ActionMenu({ isRefresh, setIsRefresh, 
-    id, updateResModal, setUpdateResModal , setSelectRestaurant , restaurant}) {
+export default function MenuCARDAction({ isRefresh, setIsRefresh, 
+    id, setMenuEditModal , setSelectMenu, menu}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -23,7 +24,7 @@ export default function ActionMenu({ isRefresh, setIsRefresh,
         try {
             console.log("id", id)
             const response = await axios.delete(
-                `${BASE_URL}/restaurant/vendor-restaurant/${id}`,
+                `${BASE_URL}${apiEndPoints.deleteMenu(menu._id)}`,
                 {
                     headers: {
                         Authorization: `Bearer ${Cookies.get("token")}`
@@ -72,8 +73,8 @@ export default function ActionMenu({ isRefresh, setIsRefresh,
                 }}
             >
                 <MenuItem onClick={()=>{
-                    setSelectRestaurant(restaurant)
-                    setUpdateResModal(true)
+                    setSelectMenu(menu)
+                    setMenuEditModal(true)
                     handleClose()
                 }}>Edit</MenuItem>
                 <MenuItem onClick={handleDelete}>Delete</MenuItem>

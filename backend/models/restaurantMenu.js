@@ -8,16 +8,18 @@ const menuSchema = new mongoose.Schema({
   menuName: {
     type: String,
     required: true,
-    unique : true 
   },
   menuDetails: {
     type: String,
     required: true,
   },
   menuPrice: {
-    type: Number
+    type: String
   },
   menuCategory: {
+    type: String
+  },
+  imageUrl: {
     type: String
   },
   createdBy: String,

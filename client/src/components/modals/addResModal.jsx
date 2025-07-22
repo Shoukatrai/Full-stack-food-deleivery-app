@@ -7,11 +7,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { CircularProgress, MenuItem, Stack, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-import { BASE_URL, toastAlert } from '../utils';
+import { BASE_URL, toastAlert } from '../../utils';
 import axios from 'axios';
 import Cookies from "js-cookie"
-import apiEndPoints from '../constant/apiEndPoints';
-
+import apiEndPoints from '../../constant/apiEndPoints';
 
 const style = {
     position: 'absolute',
@@ -27,18 +26,18 @@ const style = {
     outline: 'none',
 };
 
-export const AddMenuModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
+export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
     const [loading, setLoading] = React.useState(false)
     const [logoImage, setLogoImage] = React.useState()
-    const [selectRestaurant, setSelectRestaurant] = React.useState([])
     const handleClose = () => setOpen(false);
     const { control, handleSubmit, reset } = useForm({
         defaultValues: {
-            restaurant: "",
-            menuName: "",
-            menuDetails: "",
-            menuPrice: "",
-            menuCategory: "",
+            restaurantName: "",
+            details: "",
+            contactNumber: "",
+            address: "",
+            email: "",
+            category: "",
         }
     })
 
@@ -47,49 +46,32 @@ export const AddMenuModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
         setLogoImage(e.target.files[0])
     };
 
-    React.useEffect(() => {
-        (async () => {
-            try {
-                const api = `${BASE_URL}${apiEndPoints.selectRestaurant}`
-                const response = await axios.get(api, {
-                    headers: {
-                        Authorization: `Bearer ${Cookies.get("token")}`
-                    }
-                })
-                console.log(response)
-                setSelectRestaurant(response.data.data)
-            } catch (error) {
-                console.log(error.message, "error")
-            }
-        })()
-    }, [])
 
     const onSubmit = async (obj) => {
         try {
             console.log("obj", obj)
-            
             setLoading(true)
             let imageUrl;
-            // if (logoImage) {
-            //     const formData = new FormData()
-            //     formData.append("image", logoImage)
+            if (logoImage) {
+                const formData = new FormData()
+                formData.append("image", logoImage)
 
-            //     const imageApi = "http://localhost:5000/api/image/upload"
-            //     const imageRes = await axios.post(imageApi, formData, {
-            //         headers: {
-            //             "Content-Type": "multipart/form-data",
-            //             Authorization: `Bearer ${Cookies.get("token")}`
-            //         }
-            //     })
-            //     imageUrl = imageRes.data.url
-            // }
+                const imageApi = "http://localhost:5000/api/image/upload"
+                const imageRes = await axios.post(imageApi, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${Cookies.get("token")}`
+                    }
+                })
+                imageUrl = imageRes.data.url
+            }
 
             const bodyObj = {
                 ...obj,
                 imageUrl: imageUrl || null
             }
-            const api = `${BASE_URL}${apiEndPoints.createMenu}`
-            const response = await axios.post(api, obj, {
+            const api = `${BASE_URL}${apiEndPoints.createRestaurant}`
+            const response = await axios.post(api, bodyObj, {
                 headers: {
                     Authorization: `Bearer ${Cookies.get("token")} `
                 }
@@ -120,12 +102,6 @@ export const AddMenuModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
 
         }
     }
-
-    //selectRestaurant
-    //menuName
-    //menuDetails 
-    //menuPrice 
-    //menuCategory 
     const categories = ['Italian', 'Chinese', 'Indian', 'Mexican', 'Thai', 'Other'];
     return (
         <div>
@@ -154,71 +130,74 @@ export const AddMenuModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
                             }}
                         >
                             <Typography variant="h4" align="center" fontWeight={700} color="primary">
-                                Create Menu
+                                Create Restaurant
                             </Typography>
                             <Controller
                                 control={control}
-                                render={({ field }) => (
-                                    <TextField
-                                        label="Restaurant"
-                                        variant="outlined"
-                                        fullWidth
-                                        required
-                                        {...field}
-                                        select
-                                    >
-                                        {selectRestaurant?.map((res) => (
-                                            <MenuItem key={res._id} value={res._id}>
-                                                {res.restaurantName}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                )}
-                                name="restaurant"
-                            />
-                            <Controller
-                                control={control}
                                 render={({ field, formState: { errors } }) => (<TextField
-                                    label="Menu Name"
+                                    label="Restaurant Name"
                                     variant="outlined"
                                     fullWidth
                                     required
                                     {...field}
                                 />
                                 )}
-                                name="menuName"
+                                name="restaurantName"
                             />
                             <Controller
                                 control={control}
                                 render={({ field, formState: { errors } }) => (<TextField
-                                    label="Menu Details"
+                                    label="Details"
                                     variant="outlined"
                                     fullWidth
                                     required
                                     {...field}
                                 />
                                 )}
-                                name="menuDetails"
+                                name="details"
                             />
                             <Controller
                                 control={control}
                                 render={({ field, formState: { errors } }) => (<TextField
-                                    label="Menu Price"
+                                    label="Contact Number"
                                     variant="outlined"
                                     fullWidth
                                     required
                                     {...field}
-                                    type='number'
                                 />
                                 )}
-                                name="menuPrice"
+                                name="contactNumber"
+                            />
+                            <Controller
+                                control={control}
+                                render={({ field, formState: { errors } }) => (<TextField
+                                    label="Address"
+                                    variant="outlined"
+                                    fullWidth
+                                    required
+                                    {...field}
+                                />
+                                )}
+                                name="address"
+                            />
+                            <Controller
+                                control={control}
+                                render={({ field, formState: { errors } }) => (<TextField
+                                    label="email"
+                                    variant="outlined"
+                                    fullWidth
+                                    required
+                                    {...field}
+                                    type='email'
+                                />
+                                )}
+                                name="email"
                             />
 
-
                             <Controller
                                 control={control}
                                 render={({ field, formState: { errors } }) => (<TextField
-                                    label="Menu Category"
+                                    label="category"
                                     variant="outlined"
                                     fullWidth
                                     required
@@ -232,7 +211,7 @@ export const AddMenuModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
                                     ))}
                                 </TextField>
                                 )}
-                                name="menuCategory"
+                                name="category"
                             />
                             <Button variant="outlined" component="label">
                                 Upload Logo

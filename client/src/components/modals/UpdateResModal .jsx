@@ -7,10 +7,16 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { CircularProgress, MenuItem, Stack, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-import { BASE_URL, toastAlert } from '../utils';
+import { BASE_URL, toastAlert } from '../../utils';
 import axios from 'axios';
 import Cookies from "js-cookie"
-import apiEndPoints from '../constant/apiEndPoints';
+
+// "restaurantName": "AZ restaurant",
+//     "details": "HDGGDH",
+//     "contactNumber": "03473127706",
+//     "address": "KARACHI",
+//     "email": "az@gmail.com",
+//     "category": "xyz"
 
 const style = {
     position: 'absolute',
@@ -26,9 +32,8 @@ const style = {
     outline: 'none',
 };
 
-export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
+export const UpdateResModal = ({ open, setOpen, isRefresh, setIsRefresh, selectRestaurant }) => {
     const [loading, setLoading] = React.useState(false)
-    const [logoImage, setLogoImage] = React.useState()
     const handleClose = () => setOpen(false);
     const { control, handleSubmit, reset } = useForm({
         defaultValues: {
@@ -40,38 +45,21 @@ export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
             category: "",
         }
     })
-
-    const handleChange = (e) => {
-        console.log(e.target.files[0])
-        setLogoImage(e.target.files[0])
-    };
-
-
+    console.log("selectRestaurant", selectRestaurant)
     const onSubmit = async (obj) => {
         try {
             console.log("obj", obj)
-            setLoading(true)
-            let imageUrl;
-            // if (logoImage) {
-            //     const formData = new FormData()
-            //     formData.append("image", logoImage)
-
-            //     const imageApi = "http://localhost:5000/api/image/upload"
-            //     const imageRes = await axios.post(imageApi, formData, {
-            //         headers: {
-            //             "Content-Type": "multipart/form-data",
-            //             Authorization: `Bearer ${Cookies.get("token")}`
-            //         }
-            //     })
-            //     imageUrl = imageRes.data.url
-            // }
-
-            const bodyObj = {
-                ...obj,
-                imageUrl: imageUrl || null
+            const id = selectRestaurant._id
+            const updateObj = {
+                restaurantName: obj.restaurantName,
+                details: obj.details,
+                contactNumber: obj.contactNumber,
+                address: obj.address,
+                email: obj.email,
+                category: obj.category
             }
-            const api = `${BASE_URL}${apiEndPoints.createRestaurant}`
-            const response = await axios.post(api, obj, {
+            setLoading(true)
+            const response = await axios.put(`${BASE_URL}/restaurant/vendor-restaurant-update/${id}`, updateObj, {
                 headers: {
                     Authorization: `Bearer ${Cookies.get("token")} `
                 }
@@ -102,6 +90,10 @@ export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
 
         }
     }
+
+    React.useEffect(() => {
+        reset(selectRestaurant)
+    }, [])
     const categories = ['Italian', 'Chinese', 'Indian', 'Mexican', 'Thai', 'Other'];
     return (
         <div>
@@ -121,7 +113,7 @@ export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
                 <Fade in={open}>
                     <Box sx={style}>
                         <Stack
-                            gap={1.5}
+                            gap={2}
                             component={"form"}
                             onSubmit={handleSubmit(onSubmit)}
                             sx={{
@@ -130,7 +122,7 @@ export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
                             }}
                         >
                             <Typography variant="h4" align="center" fontWeight={700} color="primary">
-                                Create Restaurant
+                                Update Restaurant
                             </Typography>
                             <Controller
                                 control={control}
@@ -213,23 +205,6 @@ export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
                                 )}
                                 name="category"
                             />
-                            <Button variant="outlined" component="label">
-                                Upload Logo
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    hidden
-                                    name="logo"
-                                    onChange={handleChange}
-                                />
-                            </Button>
-
-
-                            {logoImage && (
-                                <Typography variant="body2" color="text.secondary">
-                                    Selected file: {logoImage.name}
-                                </Typography>
-                            )}
 
                             <Button variant="contained" color="primary" size="large" sx={{
                                 mt: 2,
@@ -237,7 +212,7 @@ export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
                                 display: 'flex',
                                 gap: "20px"
                             }} type='submit' >
-                                {loading ? <CircularProgress color='white' size={20} /> : "Create Restaurant"}
+                                {loading ? <CircularProgress color='white' size={20} /> : "Update Restaurant"}
                             </Button>
                         </Stack>
                     </Box>

@@ -1,5 +1,5 @@
 import React from 'react'
-import VendorLayout from '../../../components/vendorLayout'
+import { VendorLayout } from '../../../components'
 
 const VendorDashboard = () => {
   return (

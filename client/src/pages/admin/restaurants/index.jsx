@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import AdminLayout from '../../../components/AdminLayout '
 import axios from 'axios'
 import { BASE_URL, toastAlert } from '../../../utils'
 import apiEndPoints from '../../../constant/apiEndPoints'
@@ -9,6 +8,7 @@ import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DoneIcon from '@mui/icons-material/Done';
+import { AdminLayout } from '../../../components'
 
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([])

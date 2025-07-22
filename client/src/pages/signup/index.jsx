@@ -26,6 +26,7 @@ const Signup = () => {
             const api = `${BASE_URL}${apiEndPoints.signup}`
             const response = await axios.post(api, obj)
             console.log("response", response.data)
+            
             setLoading(false)
             if (!response.data.status) {
                 toastAlert({

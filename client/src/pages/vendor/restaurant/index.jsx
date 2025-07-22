@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import VendorLayout from '../../../components/vendorLayout';
 import { Button, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { AddResModal } from '../../../components/addResModal';
-import RestaurantCard from '../../../components/RestaurantCard';
 import { BASE_URL, toastAlert } from '../../../utils';
 import axios from 'axios';
 import Cookies from "js-cookie";
-import { UpdateResModal } from '../../../components/UpdateResModal ';
+import { AddResModal, RestaurantCard, UpdateResModal, VendorLayout } from '../../../components';
 
 
 const VendorRestaurant = () => {

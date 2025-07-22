@@ -4,15 +4,17 @@ import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
 import { Cancel, CheckCircle, Email, LocationOn, Phone } from '@mui/icons-material';
-import { Button, Chip, Stack, Box } from '@mui/material';
-import ActionMenu from './actionMenu';
+import { Button, Chip, Stack, Box, CardMedia } from '@mui/material';
+
 import { toastAlert } from '../utils';
 import axios from 'axios';
 import Cookies from "js-cookie"
+import fallBackImage from "../assets/default-fallback-image.png"
+import ActionMenu from './actions/actionMenu';
 
 
 export default function RestaurantCard({ restaurant, isRefresh,
-    setIsRefresh , updateResModal, setUpdateResModal , setSelectRestaurant }) {
+    setIsRefresh, updateResModal, setUpdateResModal, setSelectRestaurant }) {
     console.log("restaurant card check", restaurant)
 
 
@@ -81,8 +83,31 @@ export default function RestaurantCard({ restaurant, isRefresh,
                     id={restaurant._id}
                     updateResModal={updateResModal}
                     setUpdateResModal={setUpdateResModal}
-                    setSelectRestaurant = {setSelectRestaurant}
+                    setSelectRestaurant={setSelectRestaurant}
                     restaurant={restaurant}
+                />
+            </Box>
+            {/* Responsive Image */}
+            <Box sx={{
+                width: '100%',
+                aspectRatio: '16/9',
+                overflow: 'hidden',
+                borderTopLeftRadius: 12,
+                borderTopRightRadius: 12,
+                bgcolor: 'grey.100',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}>
+                <CardMedia
+                    component="img"
+                    image={restaurant.imageUrl || fallBackImage}
+                    alt={restaurant?.restaurantName}
+                    sx={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                    }}
                 />
             </Box>
             <CardActionArea>

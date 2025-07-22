@@ -9,7 +9,16 @@ const apiEndPoints = {
   editRestaurant: "/restaurant/create-restaurant",
   selectRestaurant: "/restaurant/select-restaurant",
   createMenu: "/restaurant/create-menu",
+  editMenu: (id) => `/menu/menu-edit/${id}`,
+  deleteMenu: (id) => `/menu/menu-delete/${id}`,
   fetchMenu: "/restaurant/menu-listing",
+  fecthAllOrders : "/order/vendor-order",
+  //client
+  userGetRes: "/client/all-restaurants",
+  userGetMenu: "/client/all-menu",
+  makeOrder: "/client/make-order",
+  vendorOrderStatus: (id) => `/order/vendor-order/${id}`,
+
 
   // admin
   adminAllRestaurant: "/admin/all-restaurants",
