@@ -42,7 +42,7 @@ const VendoMenu = () => {
 
   return (
     <div>
-      <VendorLayout>
+      <VendorLayout dashTitle = {"Vendor Menu"}>
         <Stack flexDirection={"row"} gap={3} spacing={2} sx={{ mt: 2 }} flexWrap={"wrap"}>
           {menuData?.map((menu) => (
             <MenuCard menu={menu} key={menu._id} isRefresh={isRefresh} setIsRefresh={setIsRefresh} selectMenu={selectMenu}

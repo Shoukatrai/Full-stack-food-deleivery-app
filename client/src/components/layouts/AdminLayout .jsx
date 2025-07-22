@@ -20,6 +20,7 @@ import RestaurantIcon from '@mui/icons-material/Restaurant';
 import { Link } from 'react-router-dom';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import { Stack } from '@mui/material';
 const linkStyle = {
     textDecoration: 'none',
     color: '#444', // default text color
@@ -91,7 +92,15 @@ function AdminLayout(props) {
 
     const drawer = (
         <div>
-            <Toolbar />
+            {/* <Toolbar /> */}
+             <Stack flexDirection={"row"} textAlign={"center"} justifyContent={"center"} alignContent={"center"} my={1.4}>
+                <Typography variant="h4" sx={{ fontWeight: 700, color: '#2e7d32', letterSpacing: 1 }}>
+                    Saylani
+                </Typography>
+                <Typography variant="h4" sx={{ fontWeight: 700, color: 'blue', letterSpacing: 1 }}>
+                    PAPA
+                </Typography>
+            </Stack>
             <Divider />
             <List>
                 {VendorListing.map((list, index) => (

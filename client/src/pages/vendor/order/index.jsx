@@ -39,7 +39,7 @@ const Order = () => {
           Authorization: `Bearer ${Cookies.get("token")}`
         }
       })
-      setOrdersData(ordersData.map(order=>order._id === id ? {...order , orderStatus : orderStatus} : order))
+      setOrdersData(ordersData.map(order => order._id === id ? { ...order, orderStatus: orderStatus } : order))
       toastAlert({
         type: "success",
         message: response.data.message
@@ -53,7 +53,7 @@ const Order = () => {
   }
   return (
     <div>
-      <VendorLayout>
+      <VendorLayout dashTitle = {"Vendor Orders"}>
         <h1>Orders</h1>
         <TableContainer component={Paper} sx={{ boxShadow: 4, borderRadius: 3, mt: 3 }}>
           <Table
@@ -95,10 +95,10 @@ const Order = () => {
                       order.orderStatus === "delivered"
                         ? "success.light"
                         : order.orderStatus === "cancelled"
-                        ? "error.light"
-                        : order.orderStatus === "preparing"
-                        ? "warning.light"
-                        : "background.paper",
+                          ? "error.light"
+                          : order.orderStatus === "preparing"
+                            ? "warning.light"
+                            : "background.paper",
                     '&:hover': {
                       bgcolor: 'grey.200',
                       transition: 'background 0.2s',

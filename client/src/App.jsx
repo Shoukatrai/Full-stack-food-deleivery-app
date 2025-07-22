@@ -4,7 +4,7 @@ import { Login, Signup } from './pages'
 import { Bounce, ToastContainer } from 'react-toastify'
 import { ClientDash } from './pages/client'
 import { AdminDashboard, Menues, Orders, Restaurants, Users, Vendors } from './pages/admin'
-import { VendoMenu, Order, VendorDashboard, VendorRestaurant } from './pages/vendor'
+import { VendoMenu, Order, VendorDash, VendorRestaurant } from './pages/vendor'
 import { AdminRoutes, AuthRoutes, VendorRoutes , ClientRoutes } from './routes'
 
 
@@ -21,7 +21,7 @@ function App() {
         </Route>
 
         <Route element={<VendorRoutes />}>
-          <Route path='/vendor-dashboard' element={<VendorDashboard />} />
+          <Route path='/vendor-dashboard' element={<VendorDash />} />
           <Route path='/vendor-restaurant' element={<VendorRestaurant />} />
           <Route path='/vendor-order' element={<Order />} />
           <Route path='/vendor-menu' element={<VendoMenu />} />

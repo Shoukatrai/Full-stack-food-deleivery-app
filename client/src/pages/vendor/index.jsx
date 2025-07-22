@@ -1,11 +1,11 @@
-import VendorDashboard from "./dash"
+import VendorDash from "./dash"
 import VendorRestaurant from "./restaurant"
 import VendorRoutes from "../../routes/VendorRoutes"
 import Order from "./order"
 import VendoMenu from "./menu"
 
 export {
-    VendorDashboard,
+    VendorDash,
     VendorRestaurant,
     Order,
     VendoMenu,

@@ -42,7 +42,7 @@ const VendorRestaurant = () => {
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <VendorLayout>
+      <VendorLayout dashTitle = {"Vendor Restaurants"}>
         <Stack flexDirection={"row"} gap={3} spacing={2} sx={{ mt: 2 }} flexWrap={"wrap"}>
           {restaurants?.map((restaurant) => (
               <RestaurantCard restaurant={restaurant} key={restaurant._id} isRefresh={isRefresh}

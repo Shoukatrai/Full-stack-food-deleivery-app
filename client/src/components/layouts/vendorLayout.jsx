@@ -19,6 +19,9 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import { Link } from 'react-router-dom';
+import { Stack } from '@mui/material';
+
+
 
 const linkStyle = {
     textDecoration: 'none',
@@ -61,7 +64,7 @@ const VendorListing = [
 const drawerWidth = 240;
 
 function VendorLayout(props) {
-    const { window, children } = props;
+    const { window, children, dashTitle } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
 
@@ -82,7 +85,15 @@ function VendorLayout(props) {
 
     const drawer = (
         <div>
-            <Toolbar />
+            {/* <Toolbar /> */}
+            <Stack flexDirection={"row"} textAlign={"center"} justifyContent={"center"} alignContent={"center"} my={1.4}>
+                <Typography variant="h4" sx={{ fontWeight: 700, color: '#2e7d32', letterSpacing: 1 }}>
+                    Saylani
+                </Typography>
+                <Typography variant="h4" sx={{ fontWeight: 700, color: 'blue', letterSpacing: 1 }}>
+                    PAPA
+                </Typography>
+            </Stack>
             <Divider />
             <List>
                 {VendorListing.map((list, index) => (
@@ -125,7 +136,7 @@ function VendorLayout(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Vendor Dashboard
+                        {dashTitle}
                     </Typography>
                 </Toolbar>
             </AppBar>
