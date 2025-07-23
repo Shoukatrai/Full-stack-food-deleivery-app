@@ -84,7 +84,7 @@ const Login = () => {
             name="password"
           />
           <Typography variant="body1" align="center" fontWeight={700} color="primary">
-            Don't have an account? <Link to={"signup"}>Create Account</Link>
+            Don't have an account? <Link to={"/signup"}>Create Account</Link>
           </Typography>
           <Button variant="contained" color="primary" size="large" sx={{
             mt: 2,

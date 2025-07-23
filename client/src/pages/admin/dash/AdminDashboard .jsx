@@ -5,7 +5,7 @@ import { AdminLayout } from '../../../components'
 
 const AdminDashboard  = () => {
   return (
-    <AdminLayout>
+    <AdminLayout dashTitle = {"Admin Dashboard"}>
       AdminDashboard
     </AdminLayout>
   )

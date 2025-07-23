@@ -21,6 +21,7 @@ import { Link } from 'react-router-dom';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import { Stack } from '@mui/material';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 const linkStyle = {
     textDecoration: 'none',
     color: '#444', // default text color
@@ -59,8 +60,8 @@ const VendorListing = [
     {
         name: 'Vendors',
         url: "/admin-vendors",
-        icon: <PeopleOutlineIcon />
-    },{
+        icon: <PeopleAltIcon />
+    }, {
         name: 'Users',
         url: "/admin-users",
         icon: <PeopleOutlineIcon />
@@ -71,7 +72,7 @@ const VendorListing = [
 const drawerWidth = 240;
 
 function AdminLayout(props) {
-    const { window, children } = props;
+    const { window, children , dashTitle } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
 
@@ -93,7 +94,7 @@ function AdminLayout(props) {
     const drawer = (
         <div>
             {/* <Toolbar /> */}
-             <Stack flexDirection={"row"} textAlign={"center"} justifyContent={"center"} alignContent={"center"} my={1.4}>
+            <Stack flexDirection={"row"} textAlign={"center"} justifyContent={"center"} alignContent={"center"} my={1.4}>
                 <Typography variant="h4" sx={{ fontWeight: 700, color: '#2e7d32', letterSpacing: 1 }}>
                     Saylani
                 </Typography>
@@ -143,7 +144,7 @@ function AdminLayout(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Vendor Dashboard
+                       { dashTitle}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -152,7 +153,7 @@ function AdminLayout(props) {
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
                 aria-label="mailbox folders"
             >
-                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+                
                 <Drawer
                     container={container}
                     variant="temporary"

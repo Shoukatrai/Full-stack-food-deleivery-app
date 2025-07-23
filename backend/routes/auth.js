@@ -1,5 +1,5 @@
 import express from "express";
-import { login, signup } from "../controllers/auth.js";
+import { login, signup, verifyUser } from "../controllers/auth.js";
 
 const authRouter = express.Router()
 
@@ -7,6 +7,7 @@ const authRouter = express.Router()
 
 authRouter.post("/signup" , signup)
 authRouter.post("/login" , login)
+authRouter.patch("/verify-email" , verifyUser)
 
 
 export default authRouter

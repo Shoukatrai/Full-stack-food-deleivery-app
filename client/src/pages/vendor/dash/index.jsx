@@ -21,36 +21,36 @@ const rows = [
 export default function VendorDash() {
   return (
     <>
-      <VendorLayout dashTitle = {"Vendo Dashboard"}>
-<TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="caption table">
-        <caption> Daily Tasks </caption>
-        <TableHead>
-          <TableRow>
-            <TableCell>🔄 Active Orders</TableCell>
-            <TableCell>✅ Completed Today</TableCell>
-            <TableCell>💸 Earnings Today</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Day</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell>{row.calories}</TableCell>
-              <TableCell>{row.fat}</TableCell>
-              <TableCell>{row.carbs}</TableCell>
-              <TableCell>{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <VendorLayout dashTitle={"Vendo Dashboard"}>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="caption table">
+            <caption> Daily Tasks </caption>
+            <TableHead>
+              <TableRow>
+                <TableCell>🔄 Active Orders</TableCell>
+                <TableCell>✅ Completed Today</TableCell>
+                <TableCell>💸 Earnings Today</TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell>Day</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow key={row.name}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell>{row.calories}</TableCell>
+                  <TableCell>{row.fat}</TableCell>
+                  <TableCell>{row.carbs}</TableCell>
+                  <TableCell>{row.protein}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </VendorLayout>
     </>
-    
+
   );
 }

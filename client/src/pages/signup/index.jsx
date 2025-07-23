@@ -38,7 +38,7 @@ const Signup = () => {
                     type: "success",
                     message: response.data.message
                 })
-                navigate("/")
+                navigate("/login")
             }
         } catch (error) {
             setLoading(false)
@@ -146,7 +146,7 @@ const Signup = () => {
 
                     <Typography variant="body1" align="center" fontWeight={700} color="primary">
                         Have an account? {' '}
-                        <Link to={"/"}>Login</Link>
+                        <Link to={"/login"}>Login</Link>
                     </Typography>
                     <Button variant="contained" color="primary" size="large" sx={{
                         mt: 2,

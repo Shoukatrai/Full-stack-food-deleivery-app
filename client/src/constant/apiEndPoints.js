@@ -2,6 +2,7 @@
 const apiEndPoints = {
   signup: "/auth/signup",
   login: "/auth/login",
+  verifyEmail: "/auth/verify-email",
   uploadImage: "/imagels/upload",
 
   //vendor
@@ -24,9 +25,9 @@ const apiEndPoints = {
   adminAllRestaurant: "/admin/all-restaurants",
   restaurantApproval: (id) => `/admin/restaurant-approve/${id}`,
   restaurantAdminDelete: (id) => `/admin/restaurant-delete/${id}`,
+  allVendorsGet: "/admin/all-vendors",
+  allusersGet: "/admin/all-users",
 
-  // // restaurant
-  // restaurantDropdown : `/restaurant/dropdown-restaurant`
 };
 
 export default apiEndPoints;
