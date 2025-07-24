@@ -38,7 +38,12 @@ const Signup = () => {
                     type: "success",
                     message: response.data.message
                 })
-                navigate("/login")
+                navigate("/user-verification", {
+                    state : {
+                        email : obj.email,
+                        page : "signup"
+                    }
+                })
             }
         } catch (error) {
             setLoading(false)

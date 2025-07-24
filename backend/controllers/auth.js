@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { userModel } from "../models/userSchema.js";
 import nodemailer from "nodemailer";
 import { userVerificationEmail } from "../templates/userVerificationEmail.js";
+import { otpModel } from "../models/otpSchema.js";
 export const signup = async (req, res) => {
   try {
     const body = req.body;
@@ -27,11 +28,14 @@ export const signup = async (req, res) => {
     const saveObj = {
       ...body,
       password: hashPass,
-      otp: otp,
-      otpExpiry: otpExpiry,
     };
-
     const response = await userModel.create(saveObj);
+
+    //create otp collection....
+    await otpModel.create({
+      otp,
+      email: body.email,
+    });
 
     //send verification email
     const transporter = nodemailer.createTransport({
@@ -114,41 +118,36 @@ export const login = async (req, res) => {
 
 export const verifyUser = async (req, res) => {
   try {
-    const body = req.body;
-    console.log("body" , body)
-    const user = await userModel.findOne({ email: body.email });
-    console.log("user" , user)
+    const { otp, email } = req.body;
 
-    if (!user) {
-      return res.json({
-        message: "User not found",
+    const otpRes = await otpModel.findOne({
+      otp,
+      email,
+      isUsed: false,
+    });
+
+    if (!otpRes || new Date() > otpRes.expiry) {
+      return res.status(400).json({
+        message: "OTP is invalid or has expired.",
         status: false,
         data: null,
       });
     }
-    const otp = body.otp
-    if (user.otp !== otp || user.otpExpiry < Date.now()) {
-      return res.json({
-        message: "Invalid or expired OTP",
-        status: false,
-        data: null,
-      });
-    }
-    const updateObj = {
-      otp: null,
-      otpExpiry: null,
-      isVerified : true
-    };
-    const response = await userModel.findByIdAndUpdate(user._id, updateObj, { new: true });
-    console.log("email verify success response", response);
 
-    return res.json({
-      message: "User Verified",
+    // Mark OTP as used
+    otpRes.isUsed = true;
+    await otpRes.save();
+
+    // Mark user as verified
+    await userModel.updateOne({ email }, { isVerified: true });
+
+    res.status(200).json({
+      message: "User verified successfully.",
       status: true,
-      data: response,
+      data: null,
     });
   } catch (error) {
-    return res.json({
+    res.status(500).json({
       message: error.message,
       status: false,
       data: null,

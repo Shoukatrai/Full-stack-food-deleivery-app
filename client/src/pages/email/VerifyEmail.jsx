@@ -4,15 +4,22 @@ import { BASE_URL, toastAlert } from '../../utils';
 import axios from 'axios';
 import { Controller, useForm } from 'react-hook-form';
 import apiEndPoints from '../../constant/apiEndPoints';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const VerifyEmail = () => {
-const navigate = useNavigate()
+    const navigate = useNavigate()
+    const location = useLocation()
     const onSubmit = async (obj) => {
         console.log(obj)
         try {
+            const otpObj = {
+                ...obj,
+                email: location?.state?.email,
+            }
+
+            console.log(otpObj)
             const api = `${BASE_URL}${apiEndPoints.verifyEmail}`
-            const response = await axios.patch(api, obj)
+            const response = await axios.patch(api, otpObj)
             console.log("email response", response)
             if (response.data.status === false) {
                 toastAlert({
@@ -24,7 +31,18 @@ const navigate = useNavigate()
                     type: "success",
                     message: response.data.message
                 })
-                navigate("/login")
+            }
+            const userType = location?.state?.response.data.data.type
+            if (location?.state?.page === "signup") {
+                navigate("/login");
+                return;
+            }
+            if (userType === "admin") {
+                navigate("/admin-dashboard")
+            } else if (userType === "vendor") {
+                navigate("/vendor-dashboard")
+            } else if (userType === "customer") {
+                navigate("/client-dashboard")
             }
 
         } catch (error) {
@@ -35,12 +53,19 @@ const navigate = useNavigate()
         }
     }
 
-    const { control, reset, handleSubmit } = useForm({
+    const { control, reset, handleSubmit } = useForm({ 
         defaultValues: {
-            email: "",
             otp: ""
         }
     })
+
+    React.useEffect(() => {
+        if (!location.state?.email) {
+            toastAlert({ type: "error", message: "No email provided for verification." });
+            navigate("/login");
+        }
+    }, [location, navigate]);
+
     return (
         <Box
             sx={{
@@ -70,13 +95,13 @@ const navigate = useNavigate()
                     mb={2}
                     color="primary"
                 >
-                    Email Verification
+                    OTP Verification
                 </Typography>
                 <Typography variant="body2" textAlign="center" mb={3}>
                     Please enter the verification code sent to your email.
                 </Typography>
                 <Stack spacing={2} component={"form"} onSubmit={handleSubmit(onSubmit)}>
-                    <Controller
+                    {/* <Controller
                         name="email"
                         control={control}
                         render={({ field }) => (
@@ -87,7 +112,7 @@ const navigate = useNavigate()
                                 {...field}
                             />
                         )}
-                    />
+                    /> */}
 
                     <Controller
                         name="otp"

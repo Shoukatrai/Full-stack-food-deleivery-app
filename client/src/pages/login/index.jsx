@@ -24,15 +24,28 @@ const Login = () => {
       const api = `${BASE_URL}${apiEndPoints.login}`
       const response = await axios.post(api, obj)
       console.log("response", response.data)
+      if (!response.data.data.isVerifid) {
+        toastAlert({
+          type: "success",
+          message: "Login successful. Please verify your email."
+        })
+        return navigate("/user-verification", {
+          state: {
+            email: response.data.data.email,
+            page: "login",
+            response : response
+          }
+        })
+      }
       Cookies.set("token", response.data.token)
       setLoading(false)
       const userType = response.data.data.type
-      
-      if(userType ==="admin"){
+
+      if (userType === "admin") {
         navigate("/admin-dashboard")
-      }else if(userType ==="vendor"){
+      } else if (userType === "vendor") {
         navigate("/vendor-dashboard")
-      }else if(userType ==="customer"){
+      } else if (userType === "customer") {
         navigate("/client-dashboard")
       }
 
