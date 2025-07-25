@@ -6,11 +6,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { BASE_URL, toastAlert } from '../../utils'
 import Cookies from "js-cookie"
 import apiEndPoints from '../../constant/apiEndPoints'
-
+import { useDispatch } from 'react-redux'
+import { setUser } from '../../redux/slice/userSlice'
 
 const Login = () => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",
@@ -23,17 +25,25 @@ const Login = () => {
       console.log("obj", obj)
       const api = `${BASE_URL}${apiEndPoints.login}`
       const response = await axios.post(api, obj)
-      
+      if(!response.data.status){
+        toastAlert({
+          type : "error",
+          message : response.data.message
+        })
+        setLoading(false)
+        return
+      }
 
-      if (!response.data.data.isVerified) {
-        const email = response.data.data.email
-        const type = response.data.data.type
-        const token = response.data.token
+
+      if (!response?.data?.data?.isVerified) {
+        const email = response?.data?.data?.email
+        const type = response?.data?.data?.type
+        const token = response?.data?.token
         toastAlert({
           type: "success",
           message: "Login successful. Please verify your email."
         });
-        console.log("navigation to user verification start")
+        dispatch(setUser(response.data.data))
         navigate("/user-verification", {
           state: {
             email: email,
@@ -45,6 +55,7 @@ const Login = () => {
         console.log("navigation to user verification end")
         return;
       }
+      dispatch(setUser(response.data.data))
       Cookies.set("token", response.data.token)
       setLoading(false)
       const userType = response.data.data.type
