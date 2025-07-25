@@ -5,12 +5,14 @@ import axios from 'axios';
 import { Controller, useForm } from 'react-hook-form';
 import apiEndPoints from '../../constant/apiEndPoints';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie"
+
 
 const VerifyEmail = () => {
     const navigate = useNavigate()
     const location = useLocation()
+    console.log("location" , location)
     const onSubmit = async (obj) => {
-        console.log(obj)
         try {
             const otpObj = {
                 ...obj,
@@ -25,26 +27,40 @@ const VerifyEmail = () => {
                 toastAlert({
                     type: "error",
                     message: response.data.message
-                })
+                });
+                return; 
             } else {
                 toastAlert({
                     type: "success",
                     message: response.data.message
                 })
             }
-            const userType = location?.state?.response.data.data.type
             if (location?.state?.page === "signup") {
+                toastAlert({
+                    type: "success",
+                    message: response.data.message || "Verification successful. Please log in."
+                });
                 navigate("/login");
                 return;
             }
-            if (userType === "admin") {
-                navigate("/admin-dashboard")
-            } else if (userType === "vendor") {
-                navigate("/vendor-dashboard")
-            } else if (userType === "customer") {
-                navigate("/client-dashboard")
-            }
 
+            const userType =location?.state?.type
+            Cookies.set("token", location?.state?.token)
+           
+
+            if (userType === "admin") {
+                navigate("/admin-dashboard");
+            } else if (userType === "vendor") {
+                navigate("/vendor-dashboard");
+            } else if (userType === "customer") {
+                navigate("/");
+            } else {
+                toastAlert({
+                    type: "warning",
+                    message: "User type not recognized. Redirecting to login."
+                });
+                navigate("/login");
+            }
         } catch (error) {
             toastAlert({
                 type: "error",
@@ -53,7 +69,7 @@ const VerifyEmail = () => {
         }
     }
 
-    const { control, reset, handleSubmit } = useForm({ 
+    const { control, reset, handleSubmit } = useForm({
         defaultValues: {
             otp: ""
         }

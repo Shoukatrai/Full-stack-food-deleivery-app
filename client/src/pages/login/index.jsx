@@ -25,17 +25,24 @@ const Login = () => {
       const response = await axios.post(api, obj)
       console.log("response", response.data)
       if (!response.data.data.isVerifid) {
+        const email = response.data.data.email
+        const type = response.data.data.type
+        const token = response.data.token
         toastAlert({
           type: "success",
           message: "Login successful. Please verify your email."
-        })
-        return navigate("/user-verification", {
+        });
+        console.log("navigation to user verification start")
+        navigate("/user-verification", {
           state: {
-            email: response.data.data.email,
+            email: email,
             page: "login",
-            response : response
+            token: token ,
+            type : type
           }
-        })
+        });
+        console.log("navigation to user verification end")
+        return;
       }
       Cookies.set("token", response.data.token)
       setLoading(false)
@@ -46,7 +53,7 @@ const Login = () => {
       } else if (userType === "vendor") {
         navigate("/vendor-dashboard")
       } else if (userType === "customer") {
-        navigate("/client-dashboard")
+        navigate("/")
       }
 
       toastAlert({

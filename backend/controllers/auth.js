@@ -22,7 +22,6 @@ export const signup = async (req, res) => {
 
     //createOtp
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
     console.log("otp", otp);
     // SAVE OBJ
     const saveObj = {
@@ -116,35 +115,86 @@ export const login = async (req, res) => {
   }
 };
 
+// export const verifyUser = async (req, res) => {
+//   try {
+//     const { otp, email } = req.body;
+
+//     const otpRes = await otpModel.findOne({
+//       otp,
+//       email,
+//       isUsed: false,
+//     });
+
+//     if (!otpRes) {
+//       return res.status(400).json({
+//         message: "OTP is invalid or has expired.",
+//         status: false,
+//         data: null,
+//       });
+//     }
+
+//     // Mark OTP as used
+//     otpRes.isUsed = true;
+//     await otpRes.save();
+
+//     // Mark user as verified
+//     await userModel.updateOne({ email }, { isVerified: true });
+
+//     res.status(200).json({
+//       message: "User verified successfully.",
+//       status: true,
+//       data: null,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       message: error.message,
+//       status: false,
+//       data: null,
+//     });
+//   }
+// };
+
 export const verifyUser = async (req, res) => {
   try {
     const { otp, email } = req.body;
 
-    const otpRes = await otpModel.findOne({
-      otp,
-      email,
-      isUsed: false,
-    });
-
-    if (!otpRes || new Date() > otpRes.expiry) {
+    if (!otp || !email) {
       return res.status(400).json({
-        message: "OTP is invalid or has expired.",
+        message: "OTP and email are required.",
         status: false,
         data: null,
       });
     }
 
-    // Mark OTP as used
+    const otpRes = await otpModel.findOne({ otp, email, isUsed: false });
+
+    if (!otpRes) {
+      return res.status(400).json({
+        message: "OTP is invalid or used!",
+        status: false,
+        data: null,
+      });
+    }
+
     otpRes.isUsed = true;
     await otpRes.save();
 
-    // Mark user as verified
-    await userModel.updateOne({ email }, { isVerified: true });
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found.",
+        status: false,
+        data: null,
+      });
+    }
+
+    user.isVerified = true;
+    await user.save();
 
     res.status(200).json({
       message: "User verified successfully.",
       status: true,
-      data: null,
+      data: { type: user.type }, 
     });
   } catch (error) {
     res.status(500).json({

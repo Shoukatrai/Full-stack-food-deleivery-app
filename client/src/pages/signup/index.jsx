@@ -26,7 +26,7 @@ const Signup = () => {
             const api = `${BASE_URL}${apiEndPoints.signup}`
             const response = await axios.post(api, obj)
             console.log("response", response.data)
-            
+
             setLoading(false)
             if (!response.data.status) {
                 toastAlert({
@@ -39,11 +39,12 @@ const Signup = () => {
                     message: response.data.message
                 })
                 navigate("/user-verification", {
-                    state : {
-                        email : obj.email,
-                        page : "signup"
+                    state: {
+                        email: response.data.data.email,
+                        page: "signup" 
                     }
-                })
+                });
+
             }
         } catch (error) {
             setLoading(false)
