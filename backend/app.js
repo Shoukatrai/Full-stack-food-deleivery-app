@@ -9,6 +9,9 @@ import { cloudinaryConfig } from "./config/cloudinary.js";
 import adminRouter from "./routes/admin.js";
 import clientRouter from "./routes/clientRouter.js";
 import orderRouter from "./routes/order.js";
+import cron from "node-cron"
+import { deleteJob } from "./utils/otpDelete.js";
+import { sendMarketingEmailJob } from "./utils/marketingEmail.js";
 const app = express();
 dotenv.config();
 
@@ -24,6 +27,19 @@ app.use("/api/image", imageRouter)
 app.use("/api/admin", adminRouter)
 app.use("/api/client", clientRouter)
 app.use("/api/order", orderRouter)
+
+
+
+// delete used otp after 24 hr
+cron.schedule('0 0 * * *', deleteJob);
+
+// delete marketing emails to all verified users
+cron.schedule('*/10 * * * * *', sendMarketingEmailJob);
+
+
+
+
+
 
 
 app.get("/" , (req , res)=>res.send("SERVER UP"))

@@ -12,10 +12,10 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Stack } from '@mui/material';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -47,7 +47,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -60,6 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [mobileSearchVisible, setMobileSearchVisible] = React.useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -79,6 +79,10 @@ export default function Navbar() {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const toggleMobileSearch = () => {
+    setMobileSearchVisible((prev) => !prev);
   };
 
   const menuId = 'primary-search-account-menu';
@@ -159,24 +163,44 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
+         
           <IconButton
             size="large"
             edge="start"
             color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
+            aria-label="open search"
+            sx={{ mr: 2, display: { xs: 'flex', sm: 'none' } }}
+            onClick={toggleMobileSearch}
           >
-            <MenuIcon /> 
+            <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+
+        
+          <Stack
+            flexDirection={'row'}
+            textAlign={'center'}
+            justifyContent={'center'}
+            alignContent={'center'}
+            my={1.4}
+            sx={{ flexGrow: { xs: 1, sm: 0 } }}
           >
-            SaylaniPapa
-          </Typography>
-          <Search>
+            <Typography variant="h5" sx={{ fontWeight: 700, color: '#2e7d32', letterSpacing: 1 }}>
+              Saylani
+            </Typography>
+            <Typography variant="h5" sx={{ fontWeight: 700, color: 'white', letterSpacing: 1, ml: 1 }}>
+              PAPA
+            </Typography>
+          </Stack>
+
+          <Search
+            sx={{
+              position: 'absolute',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: { xs: '100%', sm: '40%', md: '30%' },
+              display: { xs: 'none', sm: 'block' }
+            }}
+          >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -185,6 +209,9 @@ export default function Navbar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
+
+
+          
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
@@ -192,11 +219,7 @@ export default function Navbar() {
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
+            <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>
@@ -213,6 +236,7 @@ export default function Navbar() {
               <AccountCircle />
             </IconButton>
           </Box>
+
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -226,7 +250,25 @@ export default function Navbar() {
             </IconButton>
           </Box>
         </Toolbar>
+
+        
+        {mobileSearchVisible && (
+          <Box sx={{ px: 2, pb: 2, display: { xs: 'block', sm: 'none' } }}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                autoFocus
+                placeholder="Search items"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+          </Box>
+        )}
       </AppBar>
+
+
       {renderMobileMenu}
       {renderMenu}
     </Box>

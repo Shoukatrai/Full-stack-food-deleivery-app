@@ -69,21 +69,12 @@ const ClientDash = () => {
         >
           Top Picks from SaylaniPapa’s Kitchen
         </Typography>
-        <TopMenues menuData={menuData}  />
+        <TopMenues menuData={menuData} />
       </Box>
 
 
       <Box
-        sx={{
-          bgcolor: 'background.paper',
-          borderRadius: 4,
-          boxShadow: 2,
-          px: { xs: 2, md: 4 },
-          py: { xs: 4, md: 6 },
-          maxWidth: 1200,
-          mx: 'auto',
-          mb: 6,
-        }}
+
       >
         <Typography
           component="h2"
@@ -99,6 +90,16 @@ const ClientDash = () => {
           Our Top Restaurants
         </Typography>
         <Stack
+          sx={{
+            bgcolor: 'background.paper',
+            borderRadius: 4,
+            boxShadow: 2,
+            px: { xs: 2, md: 4 },
+            py: { xs: 4, md: 6 },
+            maxWidth: 1200,
+            mx: 'auto',
+            mb: 6,
+          }}
           direction="row"
           flexWrap="wrap"
           justifyContent="center"
@@ -124,7 +125,7 @@ const ClientDash = () => {
         </Stack>
       </Box>
 
-     
+
       <Footer />
     </>
   )

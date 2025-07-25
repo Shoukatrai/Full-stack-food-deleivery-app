@@ -2,10 +2,10 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import { Login, Signup } from './pages'
 import { Bounce, ToastContainer } from 'react-toastify'
-import { ClientDash } from './pages/client'
+import { ClientDash, OrderFromRestaurants } from './pages/client'
 import { AdminDashboard, Menues, Orders, Restaurants, Users, Vendors } from './pages/admin'
 import { VendoMenu, Order, VendorDash, VendorRestaurant } from './pages/vendor'
-import { AdminRoutes, AuthRoutes, VendorRoutes , ClientRoutes } from './routes'
+import { AdminRoutes, AuthRoutes, VendorRoutes, ClientRoutes } from './routes'
 import VerifyEmail from './pages/email/VerifyEmail'
 
 
@@ -36,17 +36,17 @@ function App() {
           <Route path='/admin-users' element={<Users />} />
           <Route path='/admin-menus' element={<Menues />} />
           <Route path='/admin-vendors' element={<Vendors />} />
-         
+
 
         </Route>
 
+        <Route index element={<ClientDash />} />
         <Route element={<ClientRoutes />}>
-          <Route index element={<ClientDash />} />
-
+          <Route path='/order-now' element={<OrderFromRestaurants />} />
         </Route>
 
 
-        
+
       </Routes>
 
       <ToastContainer
