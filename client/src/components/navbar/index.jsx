@@ -15,7 +15,11 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
+import Cookies from "js-cookie"
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import { useNavigate } from 'react-router-dom';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -63,6 +67,8 @@ export default function Navbar() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isLogin = Cookies.get("token")
+  const navigate = useNavigate()
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -85,6 +91,11 @@ export default function Navbar() {
     setMobileSearchVisible((prev) => !prev);
   };
 
+  const handleLogin = () => {
+    navigate("/login")
+    handleMenuClose()
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -103,7 +114,7 @@ export default function Navbar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {isLogin ? <MenuItem onClick={handleMenuClose}>My account</MenuItem> : <MenuItem onClick={handleLogin}>Login</MenuItem>}
     </Menu>
   );
 
@@ -163,7 +174,7 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-         
+
           <IconButton
             size="large"
             edge="start"
@@ -175,7 +186,7 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton>
 
-        
+
           <Stack
             flexDirection={'row'}
             textAlign={'center'}
@@ -211,9 +222,23 @@ export default function Navbar() {
           </Search>
 
 
-          
+
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            {/* <Button
+              variant="outlined"
+              sx={{
+                color: 'white',
+                borderColor: 'white',
+                '&:hover': {
+                  backgroundColor: 'white',
+                  color: '#1976d2', // or your theme primary color
+                  borderColor: 'white',
+                },
+              }}
+            >
+              Sign In
+            </Button> */}
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
                 <ShoppingCartIcon />
@@ -234,6 +259,8 @@ export default function Navbar() {
               color="inherit"
             >
               <AccountCircle />
+
+
             </IconButton>
           </Box>
 
@@ -251,7 +278,7 @@ export default function Navbar() {
           </Box>
         </Toolbar>
 
-        
+
         {mobileSearchVisible && (
           <Box sx={{ px: 2, pb: 2, display: { xs: 'block', sm: 'none' } }}>
             <Search>

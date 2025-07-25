@@ -23,8 +23,9 @@ const Login = () => {
       console.log("obj", obj)
       const api = `${BASE_URL}${apiEndPoints.login}`
       const response = await axios.post(api, obj)
-      console.log("response", response.data)
-      if (!response.data.data.isVerifid) {
+      
+
+      if (!response.data.data.isVerified) {
         const email = response.data.data.email
         const type = response.data.data.type
         const token = response.data.token

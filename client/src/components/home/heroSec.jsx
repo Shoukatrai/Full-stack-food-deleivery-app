@@ -10,6 +10,7 @@ const HeroSec = () => {
     const token = Cookies.get("token")
     if (!token) {
       navigate("/login")
+      return;
     }
     navigate("/order-now")
   }

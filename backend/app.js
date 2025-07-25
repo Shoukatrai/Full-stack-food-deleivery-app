@@ -34,7 +34,7 @@ app.use("/api/order", orderRouter)
 cron.schedule('0 0 * * *', deleteJob);
 
 // delete marketing emails to all verified users
-cron.schedule('*/10 * * * * *', sendMarketingEmailJob);
+cron.schedule('0 0 * * *', sendMarketingEmailJob);
 
 
 
