@@ -15,7 +15,8 @@ const apiEndPoints = {
   fetchMenu: "/restaurant/menu-listing",
   fecthAllOrders : "/order/vendor-order",
   //client
-  userGetRes: "/client/all-restaurants",
+  userGetRes: "/client/all-top-restaurants",
+  userOrderRes: "/client/all-restaurants",
   userGetMenu: "/client/all-menu",
   makeOrder: "/client/make-order",
   vendorOrderStatus: (id) => `/order/vendor-order/${id}`,

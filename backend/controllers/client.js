@@ -3,7 +3,7 @@ import { RestaurantMenuModel } from "../models/restaurantMenu.js";
 import { restaurantModel } from "../models/restaurantSchema.js";
 import { userModel } from "../models/userSchema.js";
 
-export const getUserAllRestaurants = async (req, res) => {
+export const getUser3topRestaurants = async (req, res) => {
   try {
     const restaurantRes = await restaurantModel.find({
       isDeleted: false,
@@ -77,6 +77,30 @@ export const makeNewOrder = async (req, res) => {
       status: true,
       message: error.message,
       data: null,
+    });
+  }
+};
+
+
+
+export const getAllRestaurant = async (req, res) => {
+  try {
+    const restaurantRes = await restaurantModel.find({
+      isDeleted: false,
+      isApproved: true,
+    });
+    console.log("restaurantRes", restaurantRes);
+
+    res.json({
+      status: true,
+      message: "all restaurants get",
+      data: restaurantRes,
+    });
+  } catch (error) {
+    res.json({
+      status: false,
+      message: error.message,
+      data: restaurantRes,
     });
   }
 };

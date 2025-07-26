@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Login, Signup } from './pages'
 import { Bounce, ToastContainer } from 'react-toastify'
-import { ClientDash, OrderFromRestaurants } from './pages/client'
+import { Cart, ClientDash, OrderFromRestaurants, SingleRestaurant } from './pages/client'
 import { AdminDashboard, Menues, Orders, Restaurants, Users, Vendors } from './pages/admin'
 import { VendoMenu, Order, VendorDash, VendorRestaurant } from './pages/vendor'
 import { AdminRoutes, AuthRoutes, VendorRoutes, ClientRoutes } from './routes'
@@ -46,6 +46,8 @@ function App() {
           <Route index element={<ClientDash />} />
           <Route element={<ClientRoutes />}>
             <Route path='/order-now' element={<OrderFromRestaurants />} />
+            <Route path='/cart' element={<Cart />} />
+            <Route path='/single-restaurant' element={<SingleRestaurant />} />
           </Route>
           <Route path='/unauthorized' element={<Unauthorized />} />
 

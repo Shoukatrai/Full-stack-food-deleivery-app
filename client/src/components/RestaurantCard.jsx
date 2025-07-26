@@ -11,12 +11,13 @@ import axios from 'axios';
 import Cookies from "js-cookie"
 import fallBackImage from "../assets/default-fallback-image.png"
 import ActionMenu from './actions/actionMenu';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function RestaurantCard({ restaurant, isRefresh,
     setIsRefresh, updateResModal, setUpdateResModal, setSelectRestaurant }) {
     console.log("restaurant card check", restaurant)
-
+    const navigate = useNavigate()
 
     const statusHandler = async (id) => {
         console.log("statusHandler", id)
@@ -177,6 +178,7 @@ export default function RestaurantCard({ restaurant, isRefresh,
                             fontWeight: 600,
                             borderRadius: 2,
                         }}
+                        
                     >
                         View Details
                     </Button>
