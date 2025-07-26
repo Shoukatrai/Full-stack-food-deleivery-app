@@ -17,11 +17,12 @@ import Typography from '@mui/material/Typography';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-import { Stack } from '@mui/material';
+import { Avatar, Button, Menu, MenuItem, Stack } from '@mui/material';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import Cookies from 'js-cookie';
 const linkStyle = {
     textDecoration: 'none',
     color: '#444', // default text color
@@ -72,7 +73,7 @@ const VendorListing = [
 const drawerWidth = 240;
 
 function AdminLayout(props) {
-    const { window, children , dashTitle } = props;
+    const { window, children, dashTitle } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
 
@@ -120,6 +121,13 @@ function AdminLayout(props) {
 
         </div>
     );
+    const navigate = useNavigate()
+    const handleLogout = () => {
+        Cookies.remove("token")
+        Cookies.remove("type")
+        handleClose()
+        navigate("/login")
+    }
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -133,7 +141,7 @@ function AdminLayout(props) {
                     ml: { sm: `${drawerWidth}px` },
                 }}
             >
-                <Toolbar>
+                {/* <Toolbar>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -146,6 +154,44 @@ function AdminLayout(props) {
                     <Typography variant="h6" noWrap component="div">
                        { dashTitle}
                     </Typography>
+                </Toolbar> */}
+                <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <IconButton color="inherit"
+                            aria-label="open drawer"
+                            edge="start"
+                            onClick={handleDrawerToggle}
+                            sx={{ mr: 2, display: { sm: 'none' } }}>
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" noWrap>{dashTitle}</Typography>
+                    </Box>
+                    <Button
+                        id="basic-button"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                    >
+                        <Avatar
+                            sx={{ width: { xs: 36, md: 56 }, height: { xs: 36, md: 56 } }}
+                        />
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        slotProps={{
+                            list: {
+                                'aria-labelledby': 'basic-button',
+                            },
+                        }}
+                    >
+                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    </Menu>
                 </Toolbar>
             </AppBar>
             <Box
@@ -153,7 +199,7 @@ function AdminLayout(props) {
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
                 aria-label="mailbox folders"
             >
-                
+
                 <Drawer
                     container={container}
                     variant="temporary"

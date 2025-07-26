@@ -1,15 +1,14 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom'
-
+import { Navigate, Outlet } from 'react-router-dom';
+import Cookies from 'js-cookie';
 const ClientRoutes = () => {
-  const user = useSelector((state) => state.user.user);
+ const token  = Cookies.get("token")
+  
 
-  if (!user) {
+  if (!token) {
     return <Navigate to="/login" />;
   }
 
-  const userType = user.type;
+ const userType  = Cookies.get("type")
 
   if (userType === 'customer') {
     return <Outlet />;

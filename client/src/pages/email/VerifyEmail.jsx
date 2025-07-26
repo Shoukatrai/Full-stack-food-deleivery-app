@@ -46,6 +46,7 @@ const VerifyEmail = () => {
 
             const userType =location?.state?.type
             Cookies.set("token", location?.state?.token)
+            Cookies.set("type", userType)
            
 
             if (userType === "admin") {

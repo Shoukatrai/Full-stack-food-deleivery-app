@@ -1,15 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
+import Cookies from "js-cookie"
 
 const AdminRoutes = () => {
-  const user = useSelector((state) => state.user.user);
-
-  if (!user) {
+  
+  const token = Cookies.get("token")
+  const userType  = Cookies.get("type")
+  if (!token) {
     return <Navigate to="/login" />;
   }
-
-  const userType = user.type;
 
   if (userType === 'admin') {
     return <Outlet />;

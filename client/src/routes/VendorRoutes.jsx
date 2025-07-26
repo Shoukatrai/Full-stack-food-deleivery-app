@@ -1,22 +1,21 @@
-import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-
+import Cookies from "js-cookie";
 const VendorRoutes = () => {
-  const user = useSelector((state) => state.user.user);
 
-  if (!user) {
+  const token = Cookies.get("token")
+  if (!token) {
     return <Navigate to="/login" />;
-  }
+  } 
 
-  const userType = user.type;
+  const userType = Cookies.get("type");
 
   if (userType === 'vendor') {
     return <Outlet />;
-  } 
+  }
 
   if (userType === 'admin') {
     return <Navigate to="/admin-dashboard" />;
-  } 
+  }
 
   if (userType === 'customer') {
     return <Navigate to="/" />;

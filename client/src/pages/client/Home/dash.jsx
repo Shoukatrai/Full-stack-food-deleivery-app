@@ -125,6 +125,20 @@ const ClientDash = () => {
         </Stack>
       </Box>
 
+      {/* //citie sec */}
+      <Typography
+        component="h2"
+        variant="h4"
+        fontWeight={700}
+        color="primary"
+        sx={{
+          mb: 4,
+          textAlign: 'center',
+          letterSpacing: 1,
+        }}
+      >
+        Delivering Happiness Across These Cities 🎉
+      </Typography>
 
       <Footer />
     </>

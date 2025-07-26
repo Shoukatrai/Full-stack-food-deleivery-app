@@ -6,13 +6,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { BASE_URL, toastAlert } from '../../utils'
 import Cookies from "js-cookie"
 import apiEndPoints from '../../constant/apiEndPoints'
-import { useDispatch } from 'react-redux'
-import { setUser } from '../../redux/slice/userSlice'
+
 
 const Login = () => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",
@@ -43,7 +41,7 @@ const Login = () => {
           type: "success",
           message: "Login successful. Please verify your email."
         });
-        dispatch(setUser(response.data.data))
+        
         navigate("/user-verification", {
           state: {
             email: email,
@@ -55,8 +53,9 @@ const Login = () => {
         console.log("navigation to user verification end")
         return;
       }
-      dispatch(setUser(response.data.data))
+      
       Cookies.set("token", response.data.token)
+      Cookies.set("type", response.data.data.type)
       setLoading(false)
       const userType = response.data.data.type
 

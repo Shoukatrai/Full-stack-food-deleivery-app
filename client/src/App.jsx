@@ -7,6 +7,8 @@ import { AdminDashboard, Menues, Orders, Restaurants, Users, Vendors } from './p
 import { VendoMenu, Order, VendorDash, VendorRestaurant } from './pages/vendor'
 import { AdminRoutes, AuthRoutes, VendorRoutes, ClientRoutes } from './routes'
 import VerifyEmail from './pages/email/VerifyEmail'
+import Unauthorized from './pages/routesHandle/Unauthorized'
+import NotFoundPage from './pages/routesHandle/NotFoundPage '
 
 
 
@@ -15,8 +17,8 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
         <Routes>
+          <Route path="*" element={<NotFoundPage />} />
           <Route element={<AuthRoutes />}>
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
@@ -45,11 +47,10 @@ function App() {
           <Route element={<ClientRoutes />}>
             <Route path='/order-now' element={<OrderFromRestaurants />} />
           </Route>
-
+          <Route path='/unauthorized' element={<Unauthorized />} />
 
 
         </Routes>
-      </BrowserRouter>
 
       <ToastContainer
         position="top-right"

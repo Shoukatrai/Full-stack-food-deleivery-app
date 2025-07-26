@@ -78,6 +78,7 @@ export const AddResModal = ({ open, setOpen, isRefresh, setIsRefresh }) => {
             })
             console.log("response", response.data)
             setLoading(false)
+            setLogoImage()
             if (!response.data.status) {
                 toastAlert({
                     type: "error",

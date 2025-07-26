@@ -29,10 +29,11 @@ const UserMenuCard = ({ menu }) => {
     const navigate = useNavigate()
     const makeOrderNow = async (menu) => {
         try {
-            const token = `${Cookies.get("token")}`
+            const token = Cookies.get("token")
             if (!token) {
                 console.log("token")
-                navigate("/")
+                navigate("/login")
+                return;
             }
             console.log("makeOrderNow")
             const saveObj = {

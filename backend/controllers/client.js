@@ -8,7 +8,7 @@ export const getUserAllRestaurants = async (req, res) => {
     const restaurantRes = await restaurantModel.find({
       isDeleted: false,
       isApproved: true,
-    });
+    }).limit(3);
     console.log("restaurantRes", restaurantRes);
 
     res.json({
@@ -27,7 +27,7 @@ export const getUserAllRestaurants = async (req, res) => {
 
 export const getUserAllMenu = async (req, res) => {
   try {
-    const menuRes = await RestaurantMenuModel.find();
+    const menuRes = await RestaurantMenuModel.find().limit(3);
     console.log("menuRes", menuRes);
 
     res.json({
@@ -39,7 +39,7 @@ export const getUserAllMenu = async (req, res) => {
     res.json({
       status: false,
       message: error.message,
-      data: restaurantRes,
+      data: null,
     });
   }
 };
